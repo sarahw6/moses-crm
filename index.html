@@ -1,0 +1,4010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOSES — Zenbill Outreach Command</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="contacts-macbook.js"></script>
+<script src="contacts-social.js"></script>
+<script src="zenbill-strategy-contacts.js"></script>
+<style>
+:root {
+  --cream: #0C2340;
+  --orange: #E8C020;
+  --orange-light: #F0D050;
+  --orange-pale: #1A2E18;
+  --yellow: #E8C020;
+  --yellow-pale: #1C2810;
+  --blue: #64B8E8;
+  --blue-pale: #0A1C30;
+  --pink: #F07090;
+  --pink-pale: #2A0F1A;
+  --green: #50D890;
+  --green-pale: #0E2A1C;
+  --purple: #B090F0;
+  --purple-pale: #1C0F30;
+  --dark: #E8F4E0;
+  --mid: #98C8A8;
+  --gray: #5A8870;
+  --border: #E8C020;
+  --white: #0F3D22;
+  --shadow: 0 2px 12px rgba(0,0,0,0.35);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: var(--orange);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.logo-text h1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--dark);
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.logo-text p {
+  font-size: 10px;
+  color: var(--orange);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.daily-counter {
+  background: var(--orange-pale);
+  border: 1.5px solid var(--orange);
+  border-radius: 20px;
+  padding: 4px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.daily-counter .count { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px; color: var(--orange); }
+.daily-counter .label { font-size: 11px; color: var(--mid); font-weight: 600; }
+.btn-notify {
+  width: 36px; height: 36px;
+  background: var(--yellow-pale);
+  border: 1.5px solid var(--yellow);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+}
+.btn-notify .badge {
+  position: absolute; top: -4px; right: -4px;
+  background: var(--pink); color: white;
+  border-radius: 50%; width: 16px; height: 16px;
+  font-size: 9px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── NAV TABS ── */
+nav {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  gap: 4px;
+}
+.tab-btn {
+  padding: 12px 18px;
+  border: none;
+  background: transparent;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--gray);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab-btn:hover { color: var(--orange); }
+.tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* ── MAIN LAYOUT ── */
+main { padding: 20px 24px; max-width: 1400px; margin: 0 auto; }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border: 1.5px solid var(--border);
+}
+.card-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--dark);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── GRID HELPERS ── */
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+.mb16 { margin-bottom: 16px; }
+.mb20 { margin-bottom: 20px; }
+
+/* ── STAT CARDS ── */
+.stat-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.stat-card .stat-num {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-card .stat-label {
+  font-size: 12px;
+  color: var(--gray);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.stat-card .stat-sub {
+  font-size: 12px;
+  color: var(--mid);
+  margin-top: 6px;
+}
+.stat-orange .stat-num { color: var(--orange); }
+.stat-blue .stat-num { color: var(--blue); }
+.stat-green .stat-num { color: var(--green); }
+.stat-pink .stat-num { color: var(--pink); }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap { background: var(--border); border-radius: 99px; height: 10px; overflow: hidden; margin-top: 8px; }
+.progress-bar { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+.progress-orange { background: linear-gradient(90deg, var(--orange), var(--orange-light)); }
+.progress-green { background: linear-gradient(90deg, var(--green), #A0FFD8); }
+.progress-blue { background: linear-gradient(90deg, var(--blue), #A0DCFF); }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--orange); color: white; }
+.btn-primary:hover { background: var(--orange-light); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(232,192,32,0.4); }
+.btn-secondary { background: var(--orange-pale); color: var(--orange); border: 1.5px solid var(--orange); }
+.btn-secondary:hover { background: var(--orange); color: white; }
+.btn-blue { background: var(--blue); color: white; }
+.btn-blue:hover { background: #80CEFF; transform: translateY(-1px); }
+.btn-green { background: var(--green); color: white; }
+.btn-green:hover { background: #70F8B0; transform: translateY(-1px); }
+.btn-pink { background: var(--pink); color: white; }
+.btn-pink:hover { background: #FF90B0; transform: translateY(-1px); }
+.btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 7px; }
+.btn-xs { padding: 3px 8px; font-size: 10px; border-radius: 6px; }
+.btn-ghost { background: transparent; color: var(--gray); border: 1.5px solid var(--border); }
+.btn-ghost:hover { background: var(--cream); color: var(--dark); }
+
+/* ── BADGE / PILL ── */
+.pill {
+  display: inline-flex; align-items: center;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.pill-peo { background: var(--blue-pale); color: var(--blue); }
+.pill-aarp { background: var(--pink-pale); color: var(--pink); }
+.pill-harvard { background: var(--purple-pale); color: var(--purple); }
+.pill-foundation { background: var(--yellow-pale); color: var(--yellow); }
+.pill-smallco { background: var(--green-pale); color: var(--green); }
+.pill-investor { background: var(--purple-pale); color: var(--purple); }
+.pill-customer { background: var(--orange-pale); color: var(--orange); }
+.pill-partner { background: var(--blue-pale); color: var(--blue); }
+.pill-thought-leader { background: var(--green-pale); color: var(--green); }
+.pill-general { background: var(--cream); color: var(--mid); border: 1px solid var(--border); }
+.pill-expert { background: var(--yellow-pale); color: #A07D00; }
+.pill-large-company { background: var(--blue-pale); color: var(--blue); }
+.pill-competitor { background: var(--pink-pale); color: var(--pink); }
+.pill-new { background: var(--blue-pale); color: var(--blue); }
+.pill-contacted { background: var(--yellow-pale); color: #A07D00; }
+.pill-responded { background: var(--green-pale); color: var(--green); }
+.pill-followup { background: var(--pink-pale); color: var(--pink); }
+.pill-meeting { background: var(--purple-pale); color: var(--purple); }
+.pill-won { background: var(--green-pale); color: var(--green); }
+.pill-cold { background: var(--orange-pale); color: var(--gray); }
+.pill-high { background: var(--orange-pale); color: var(--orange); }
+.pill-med { background: var(--yellow-pale); color: var(--yellow); }
+.pill-low { background: var(--orange-pale); color: var(--gray); }
+
+/* ── CONTACT TABLE ── */
+.contacts-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-wrap {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+.search-wrap input {
+  width: 100%;
+  padding: 9px 14px 9px 36px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  background: var(--white);
+  color: var(--dark);
+  outline: none;
+  transition: border 0.2s;
+}
+.search-wrap input:focus { border-color: var(--orange); }
+.search-wrap .search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 14px; color: var(--gray);
+}
+.filter-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.chip {
+  padding: 5px 12px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.chip:hover, .chip.active { border-color: var(--orange); color: var(--orange); background: var(--orange-pale); }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  padding: 10px 12px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray);
+  border-bottom: 2px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+th:hover { color: var(--orange); }
+td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+tr:hover td { background: var(--orange-pale); }
+tr:last-child td { border-bottom: none; }
+.contact-name { font-weight: 700; color: var(--dark); }
+.contact-org { font-size: 12px; color: var(--gray); }
+.action-row { display: flex; gap: 4px; align-items: center; }
+
+/* ── OUTREACH LOG ── */
+.log-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.log-item:last-child { border-bottom: none; }
+.log-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.log-content .log-name { font-weight: 700; font-size: 13px; }
+.log-content .log-msg { font-size: 12px; color: var(--mid); margin-top: 2px; }
+.log-content .log-time { font-size: 11px; color: var(--gray); margin-top: 3px; }
+
+/* ── DISCOVERY CARDS ── */
+.discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.discovery-card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 18px;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.discovery-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.discovery-card .platform-icon { font-size: 28px; margin-bottom: 10px; }
+.discovery-card h3 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: var(--dark);
+}
+.discovery-card p { font-size: 12px; color: var(--mid); margin-bottom: 12px; line-height: 1.5; }
+.query-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+.query-tag {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: var(--mid);
+}
+
+/* ── TEMPLATE CARDS ── */
+.template-card {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 20px;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 14px;
+}
+.template-card h3 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--dark);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.template-card .template-sub { font-size: 12px; color: var(--gray); margin-bottom: 14px; }
+.template-body {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--mid);
+  border: 1px solid var(--border);
+  white-space: pre-line;
+}
+.template-var { background: var(--yellow-pale); border: 1px solid var(--yellow); border-radius: 4px; padding: 1px 4px; font-weight: 700; color: var(--yellow); font-size: 12px; }
+
+/* ── CALENDAR ── */
+.cal-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px;
+  background: var(--white);
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  margin-bottom: 10px;
+  transition: box-shadow 0.2s;
+}
+.cal-item:hover { box-shadow: var(--shadow); }
+.cal-date {
+  min-width: 48px;
+  background: var(--orange);
+  color: white;
+  border-radius: 10px;
+  padding: 6px 4px;
+  text-align: center;
+}
+.cal-date .cal-day { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 22px; line-height: 1; }
+.cal-date .cal-mon { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.cal-info { flex: 1; }
+.cal-info h4 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; color: var(--dark); }
+.cal-info p { font-size: 12px; color: var(--mid); margin-top: 3px; }
+
+/* ── MODAL ── */
+.modal-bg {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,10,30,0.75);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 28px;
+  width: min(560px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: popIn 0.2s ease;
+}
+@keyframes popIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.modal h2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+.modal .modal-sub { font-size: 13px; color: var(--gray); margin-bottom: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; font-weight: 700; font-size: 12px; color: var(--mid); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.4px; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  background: var(--cream);
+  color: var(--dark);
+  outline: none;
+  transition: border 0.2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--orange); background: var(--white); }
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* ── TOAST ── */
+#toast-container {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast {
+  background: var(--dark);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-lg);
+  animation: slideIn 0.3s ease;
+  max-width: 300px;
+}
+@keyframes slideIn {
+  from { transform: translateX(60px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.toast.success { background: var(--green); }
+.toast.warning { background: var(--yellow); color: var(--dark); }
+.toast.error { background: var(--pink); }
+
+/* ── VERSE BANNER ── */
+.verse-banner {
+  background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 50%, #FFFFFF22 100%);
+  border-radius: 16px;
+  padding: 18px 24px;
+  color: white;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.verse-banner .verse-text {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.5;
+  flex: 1;
+}
+.verse-banner .verse-ref {
+  font-size: 12px;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+.verse-banner .verse-icon { font-size: 36px; opacity: 0.9; }
+
+/* ── GIFT TRACKER ── */
+.gift-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.gift-item:last-child { border-bottom: none; }
+.gift-emoji { font-size: 22px; }
+
+/* ── FAB ── */
+#fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 52px; height: 52px;
+  background: var(--orange);
+  border-radius: 50%;
+  border: none;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(232,192,32,0.45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 998;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#fab:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 8px 28px rgba(232,192,32,0.55); }
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--dark);
+}
+.section-sub { font-size: 13px; color: var(--gray); margin-top: 2px; }
+
+/* ── FOLLOWUP ALERT ── */
+.followup-alert {
+  background: var(--yellow-pale);
+  border: 1.5px solid var(--yellow);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.followup-alert .fa-name { font-weight: 700; font-size: 13px; color: var(--dark); }
+.followup-alert .fa-info { font-size: 12px; color: var(--mid); }
+
+/* ── IMPORT BOX ── */
+.import-box {
+  border: 2px dashed var(--orange);
+  border-radius: 14px;
+  padding: 28px;
+  text-align: center;
+  background: var(--orange-pale);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.import-box:hover { background: var(--cream); }
+.import-box .import-icon { font-size: 36px; margin-bottom: 10px; }
+.import-box h4 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: var(--orange); margin-bottom: 6px; }
+.import-box p { font-size: 12px; color: var(--mid); }
+
+/* ── SEARCH RESULTS ── */
+.result-item {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.result-item .result-platform { font-size: 18px; }
+.result-item .result-title { font-weight: 700; font-size: 13px; color: var(--dark); }
+.result-item .result-preview { font-size: 12px; color: var(--mid); margin-top: 2px; line-height: 1.5; }
+
+/* ── SYNC SECTION ── */
+.sync-block {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 22px 24px;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.sync-block-title {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--dark);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sync-block-sub { font-size: 12px; color: var(--gray); margin-bottom: 16px; }
+.sync-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.sync-status.connected { background: var(--green-pale); color: var(--green); border: 1.5px solid var(--green); }
+.sync-status.disconnected { background: var(--orange-pale); color: var(--gray); border: 1.5px solid var(--border); }
+.sync-status.syncing { background: var(--blue-pale); color: var(--blue); border: 1.5px solid var(--blue); }
+.sync-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.sync-row:last-child { border-bottom: none; }
+.sync-row-info h4 { font-weight: 700; font-size: 13px; color: var(--dark); }
+.sync-row-info p { font-size: 12px; color: var(--mid); margin-top: 2px; }
+.setup-step {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.setup-step:last-child { border-bottom: none; }
+.step-num {
+  min-width: 24px; height: 24px;
+  background: var(--orange);
+  color: white;
+  border-radius: 50%;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-text { font-size: 13px; color: var(--mid); line-height: 1.6; }
+.step-text a { color: var(--blue); text-decoration: underline; }
+.step-text code {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--orange);
+}
+
+/* ── MESSAGES TAB ── */
+.msg-layout { display: grid; grid-template-columns: 320px 1fr; gap: 16px; min-height: 600px; }
+.msg-contact-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; max-height: 70vh; }
+.msg-contact-card {
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 12px;
+  padding: 12px 14px; cursor: pointer; transition: all 0.15s;
+}
+.msg-contact-card:hover, .msg-contact-card.selected { border-color: var(--orange); background: var(--orange-pale); }
+.msg-contact-card .mcn { font-weight: 700; font-size: 13px; color: var(--dark); }
+.msg-contact-card .mco { font-size: 11px; color: var(--gray); margin-top: 2px; }
+.msg-panel { background: var(--white); border-radius: 16px; padding: 24px; border: 1.5px solid var(--border); box-shadow: var(--shadow); }
+.msg-dots { background: var(--blue-pale); border: 1.5px solid var(--blue); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 13px; color: var(--mid); line-height: 1.6; }
+.msg-dots strong { color: var(--blue); }
+.msg-section-label { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+.char-counter { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 14px; }
+.char-ok { color: var(--green); }
+.char-warn { color: var(--yellow); }
+.char-over { color: var(--pink); }
+.msg-textarea { width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'Nunito Sans', sans-serif; font-size: 13px; line-height: 1.6; color: var(--dark); background: var(--cream); outline: none; resize: vertical; transition: border 0.2s; }
+.msg-textarea:focus { border-color: var(--orange); background: var(--white); }
+.msg-email-box { background: var(--cream); border: 1.5px solid var(--border); border-radius: 10px; padding: 14px; font-size: 13px; line-height: 1.8; color: var(--mid); white-space: pre-line; }
+.msg-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.info-hub { background: var(--yellow-pale); border: 1.5px solid var(--yellow); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
+.info-hub-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; color: var(--yellow); margin-bottom: 8px; }
+.personal-connect { background: var(--purple-pale); border: 1.5px solid var(--purple); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--purple); line-height: 1.5; margin-top: 10px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+  nav { overflow-x: auto; }
+  .tab-btn { white-space: nowrap; }
+  main { padding: 14px; }
+  .msg-layout { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+/* ── DARK SCROLLBAR ── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--orange-light); }
+/* ── SELECTION ── */
+::selection { background: var(--orange); color: var(--cream); }
+/* ── HEADER GRADIENT ── */
+header { background: linear-gradient(180deg, #122E48 0%, var(--white) 100%); }
+nav { background: var(--white); border-top: 1px solid rgba(232,192,32,0.2); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🕊️</div>
+    <div class="logo-text">
+      <h1>MOSES</h1>
+      <p>Zenbill Outreach Command</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="daily-counter" onclick="showTab('dashboard')">
+      <span class="count" id="hdr-count">0</span>
+      <span class="label">/ 40 today</span>
+    </div>
+    <div class="btn-notify" onclick="showTab('calendar')" title="Reminders">
+      🔔
+      <span class="badge" id="notif-badge">0</span>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openModal('add-contact-modal')">+ Contact</button>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <button class="tab-btn active" data-tab="dashboard" onclick="showTab('dashboard')">🏛️ Command</button>
+  <button class="tab-btn" data-tab="contacts" onclick="showTab('contacts')">👥 Contacts</button>
+  <button class="tab-btn" data-tab="outreach" onclick="showTab('outreach')">📤 Outreach</button>
+  <button class="tab-btn" data-tab="discovery" onclick="showTab('discovery')">🔍 Discovery</button>
+  <button class="tab-btn" data-tab="calendar" onclick="showTab('calendar')">📅 Calendar</button>
+  <button class="tab-btn" data-tab="templates" onclick="showTab('templates')">📝 Templates</button>
+  <button class="tab-btn" data-tab="sync" onclick="showTab('sync')">⚙️ Sync</button>
+  <button class="tab-btn" data-tab="messages" onclick="showTab('messages')">✍️ Messages</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════
+     TAB 1: DASHBOARD
+═══════════════════════════════════════ -->
+<div id="tab-dashboard" class="tab-pane active">
+  <div class="verse-banner">
+    <div>
+      <div class="verse-text">"Now go, for I am sending you to part the sea of medical debt — lead your people to freedom."</div>
+      <div class="verse-ref">Moses · Exodus 3:10 · Your daily mission: 40 contacts, follow up every 3 days</div>
+    </div>
+    <div class="verse-icon">🌊</div>
+  </div>
+
+  <!-- KPI STATS -->
+  <div class="grid-4 mb20">
+    <div class="stat-card stat-orange">
+      <div class="stat-num" id="stat-today">0</div>
+      <div class="stat-label">Messaged Today</div>
+      <div class="progress-wrap"><div class="progress-bar progress-orange" id="today-bar" style="width:0%"></div></div>
+      <div class="stat-sub">Goal: <strong>40</strong> per day</div>
+    </div>
+    <div class="stat-card stat-pink">
+      <div class="stat-num" id="stat-followups">0</div>
+      <div class="stat-label">Follow-ups Due</div>
+      <div class="stat-sub">Every <strong>3 days</strong> · with a gift 🎁</div>
+    </div>
+    <div class="stat-card stat-blue">
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-label">Total in Pipeline</div>
+      <div class="stat-sub">Across all categories</div>
+    </div>
+    <div class="stat-card stat-green">
+      <div class="stat-num" id="stat-responses">0</div>
+      <div class="stat-label">Responded</div>
+      <div class="progress-wrap"><div class="progress-bar progress-green" id="resp-bar" style="width:0%"></div></div>
+      <div class="stat-sub">Response rate</div>
+    </div>
+  </div>
+
+  <div class="grid-2 mb20">
+    <!-- FOLLOW-UPS DUE -->
+    <div class="card">
+      <div class="card-title">⚡ Follow-ups Due Today</div>
+      <div id="followup-list">
+        <p style="font-size:12px;color:var(--gray);">No follow-ups due yet. Start reaching out!</p>
+      </div>
+    </div>
+
+    <!-- TODAY'S TARGET QUEUE -->
+    <div class="card">
+      <div class="card-title">🎯 Today's Outreach Queue <span style="margin-left:auto;" class="btn btn-sm btn-secondary" onclick="buildDailyQueue()">Refresh Queue</span></div>
+      <div id="daily-queue">
+        <p style="font-size:12px;color:var(--gray);">Click "Refresh Queue" to get your 40 targets for today.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- RECENT ACTIVITY -->
+    <div class="card">
+      <div class="card-title">📋 Recent Activity</div>
+      <div id="recent-activity">
+        <p style="font-size:12px;color:var(--gray);">No activity logged yet. Start reaching out to log activity.</p>
+      </div>
+    </div>
+
+    <!-- WEEKLY PROGRESS -->
+    <div class="card">
+      <div class="card-title">📊 Weekly Progress</div>
+      <div id="weekly-progress">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div id="week-bars"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TAB 2: CONTACTS
+═══════════════════════════════════════ -->
+<div id="tab-contacts" class="tab-pane">
+  <div class="section-header mb16">
+    <div>
+      <div class="section-title">Contacts</div>
+      <div class="section-sub" id="contacts-count-label">Loading…</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-secondary btn-sm" onclick="openModal('import-modal')">⬆ Import CSV</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('add-contact-modal')">+ Add Contact</button>
+    </div>
+  </div>
+
+  <div class="contacts-toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="contact-search" placeholder="Search by name, org, title…" oninput="renderContacts()">
+    </div>
+    <div class="filter-chips">
+      <div class="chip active" data-cat="all" onclick="setCatFilter(this,'all')">All</div>
+      <div class="chip" data-cat="customer" onclick="setCatFilter(this,'customer')" style="background:var(--orange-pale);border-color:var(--orange);color:var(--orange);">🎯 Potential Clients</div>
+      <div class="chip" data-cat="partner" onclick="setCatFilter(this,'partner')" style="background:var(--blue-pale);border-color:var(--blue);color:var(--blue);">🤝 Partners</div>
+      <div class="chip" data-cat="investor" onclick="setCatFilter(this,'investor')" style="background:#f3f0ff;border-color:var(--purple);color:var(--purple);">💰 Investors</div>
+      <div class="chip" data-cat="thought-leader" onclick="setCatFilter(this,'thought-leader')" style="background:var(--green-pale);border-color:var(--green);color:var(--green);">💡 Thought Leaders</div>
+      <div class="chip" data-cat="peo" onclick="setCatFilter(this,'peo')">PEO</div>
+      <div class="chip" data-cat="aarp" onclick="setCatFilter(this,'aarp')">AARP</div>
+      <div class="chip" data-cat="harvard" onclick="setCatFilter(this,'harvard')">Harvard Alumni</div>
+      <div class="chip" data-cat="smallco" onclick="setCatFilter(this,'smallco')">Small Companies</div>
+      <div class="chip" data-cat="foundation" onclick="setCatFilter(this,'foundation')">Foundations</div>
+      <div class="chip" data-cat="general" onclick="setCatFilter(this,'general')">General</div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:0;overflow:hidden;">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="sortContacts('name')">Name ↕</th>
+          <th onclick="sortContacts('org')">Organization ↕</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Priority</th>
+          <th onclick="sortContacts('lastContact')">Last Contact ↕</th>
+          <th>Next Follow-up</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="contacts-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TAB 3: OUTREACH
+═══════════════════════════════════════ -->
+<div id="tab-outreach" class="tab-pane">
+  <div class="section-header mb20">
+    <div>
+      <div class="section-title">Outreach Tracker</div>
+      <div class="section-sub">Log every message · 40/day goal · follow up every 3 days with a gift</div>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openModal('log-outreach-modal')">+ Log Outreach</button>
+  </div>
+
+  <div class="grid-3 mb20">
+    <div class="stat-card stat-orange">
+      <div class="stat-num" id="out-today">0</div>
+      <div class="stat-label">Messages Today</div>
+      <div class="progress-wrap"><div class="progress-bar progress-orange" id="out-bar" style="width:0%"></div></div>
+      <div class="stat-sub">Goal: 40 messages per day</div>
+    </div>
+    <div class="stat-card stat-pink">
+      <div class="stat-num" id="out-followup">0</div>
+      <div class="stat-label">Follow-ups Pending</div>
+      <div class="stat-sub">Every 3 days · Include a gift 🎁</div>
+    </div>
+    <div class="stat-card stat-green">
+      <div class="stat-num" id="out-gifts">0</div>
+      <div class="stat-label">Gifts Sent</div>
+      <div class="stat-sub">Relationship building</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📋 Outreach Log</div>
+      <div id="outreach-log">
+        <p style="font-size:12px;color:var(--gray);">No outreach logged yet.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🎁 Gift Follow-up Tracker</div>
+      <div style="margin-bottom:12px;">
+        <button class="btn btn-sm btn-secondary" onclick="openModal('log-gift-modal')">+ Log Gift</button>
+      </div>
+      <div id="gift-list">
+        <p style="font-size:12px;color:var(--gray);">No gifts logged yet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TAB 4: DISCOVERY
+═══════════════════════════════════════ -->
+<div id="tab-discovery" class="tab-pane">
+  <div class="section-header mb20">
+    <div>
+      <div class="section-title">Customer Discovery</div>
+      <div class="section-sub">Find people posting about unfair medical bills — turn them into customers</div>
+    </div>
+  </div>
+
+  <div class="card mb20">
+    <div class="card-title">🔎 Live Search</div>
+    <div style="display:flex;gap:10px;margin-bottom:14px;">
+      <div class="search-wrap" style="flex:1;">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="discovery-search" placeholder="Search medical bills, hospital debt, insurance dispute…" value="medical bill dispute help">
+      </div>
+      <button class="btn btn-primary" onclick="runDiscovery()">Search All Platforms</button>
+    </div>
+    <div id="discovery-results"></div>
+  </div>
+
+  <div class="section-title mb16" style="font-size:16px;">Search Platforms</div>
+  <div class="discovery-grid">
+    <div class="discovery-card" onclick="openPlatform('reddit')">
+      <div class="platform-icon">🤖</div>
+      <h3>Reddit</h3>
+      <p>Search posts about medical bills, insurance disputes, hospital debt across r/personalfinance, r/medicaldebt, r/legaladvice</p>
+      <div class="query-tags">
+        <span class="query-tag">medical bill dispute</span>
+        <span class="query-tag">hospital overcharge</span>
+        <span class="query-tag">insurance denial</span>
+        <span class="query-tag">medical debt help</span>
+      </div>
+      <button class="btn btn-sm btn-primary">Open Reddit Search →</button>
+    </div>
+    <div class="discovery-card" onclick="openPlatform('google')">
+      <div class="platform-icon">🔵</div>
+      <h3>Google Search</h3>
+      <p>Find forum posts, news articles, and public discussions about unfair medical billing and dispute resources</p>
+      <div class="query-tags">
+        <span class="query-tag">site:reddit.com medical bill</span>
+        <span class="query-tag">hospital billing dispute</span>
+        <span class="query-tag">fight medical bill</span>
+      </div>
+      <button class="btn btn-sm btn-blue">Open Google →</button>
+    </div>
+    <div class="discovery-card" onclick="openPlatform('yelp')">
+      <div class="platform-icon">⭐</div>
+      <h3>Yelp</h3>
+      <p>Find patients leaving reviews about billing issues at hospitals, urgent cares, and specialty clinics in OC & LA</p>
+      <div class="query-tags">
+        <span class="query-tag">hospitals Orange County</span>
+        <span class="query-tag">urgent care billing</span>
+        <span class="query-tag">1-star billing reviews</span>
+      </div>
+      <button class="btn btn-sm btn-green">Open Yelp →</button>
+    </div>
+    <div class="discovery-card" onclick="openPlatform('facebook')">
+      <div class="platform-icon">👥</div>
+      <h3>Facebook Groups</h3>
+      <p>Search community groups about medical debt, patient advocacy, and healthcare costs for warm leads</p>
+      <div class="query-tags">
+        <span class="query-tag">Medical Debt Relief</span>
+        <span class="query-tag">Patient Advocates</span>
+        <span class="query-tag">Healthcare Costs Help</span>
+      </div>
+      <button class="btn btn-sm btn-pink">Open Facebook →</button>
+    </div>
+    <div class="discovery-card" onclick="openPlatform('twitter')">
+      <div class="platform-icon">🐦</div>
+      <h3>X / Twitter</h3>
+      <p>Monitor hashtags and conversations in real time about medical billing disputes and insurance denials</p>
+      <div class="query-tags">
+        <span class="query-tag">#MedicalDebt</span>
+        <span class="query-tag">#InsuranceDenial</span>
+        <span class="query-tag">#HospitalBill</span>
+      </div>
+      <button class="btn btn-sm btn-ghost">Open X →</button>
+    </div>
+    <div class="discovery-card" onclick="openPlatform('quora')">
+      <div class="platform-icon">❓</div>
+      <h3>Quora</h3>
+      <p>Answer questions about fighting medical bills and disputing charges — position Zenbill as the solution</p>
+      <div class="query-tags">
+        <span class="query-tag">how to dispute medical bill</span>
+        <span class="query-tag">fight hospital charges</span>
+      </div>
+      <button class="btn btn-sm btn-ghost">Open Quora →</button>
+    </div>
+    <div class="discovery-card" onclick="openPlatform('nextdoor')">
+      <div class="platform-icon">🏘</div>
+      <h3>Nextdoor</h3>
+      <p>Hyper-local posts from OC/LA neighbors about hospital bills — the warmest possible leads</p>
+      <div class="query-tags">
+        <span class="query-tag">medical bill</span>
+        <span class="query-tag">hospital overcharge</span>
+        <span class="query-tag">insurance dispute</span>
+      </div>
+      <button class="btn btn-sm btn-orange">Open Nextdoor →</button>
+    </div>
+    <div class="discovery-card" onclick="openPlatform('bbb')">
+      <div class="platform-icon">⚖️</div>
+      <h3>BBB Complaints</h3>
+      <p>Better Business Bureau complaints about hospital billing — people already in dispute mode</p>
+      <div class="query-tags">
+        <span class="query-tag">hospital billing OC</span>
+        <span class="query-tag">urgent care overcharge</span>
+      </div>
+      <button class="btn btn-sm btn-ghost">Open BBB →</button>
+    </div>
+    <div class="discovery-card" onclick="openPlatform('linkedin')">
+      <div class="platform-icon">💼</div>
+      <h3>LinkedIn Groups</h3>
+      <p>HR managers, benefits consultants, patient advocates — decision-makers who care about medical billing</p>
+      <div class="query-tags">
+        <span class="query-tag">medical billing dispute</span>
+        <span class="query-tag">employee benefits</span>
+        <span class="query-tag">healthcare advocacy</span>
+      </div>
+      <button class="btn btn-sm btn-blue">Open LinkedIn →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TAB 5: CALENDAR
+═══════════════════════════════════════ -->
+<div id="tab-calendar" class="tab-pane">
+  <div class="section-header mb20">
+    <div>
+      <div class="section-title">Deadlines & Reminders</div>
+      <div class="section-sub">Your outreach schedule, follow-up alerts, and key deadlines</div>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openModal('add-event-modal')">+ Add Deadline</button>
+  </div>
+
+  <div class="grid-2 mb20">
+    <div class="card">
+      <div class="card-title">⚡ Immediate Action (This Week)</div>
+      <div id="cal-urgent"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📅 Upcoming (Next 30 Days)</div>
+      <div id="cal-upcoming"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔔 Notification Settings</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+        <input type="checkbox" id="notif-daily" checked style="width:16px;height:16px;accent-color:var(--orange);">
+        <span style="font-weight:600;font-size:13px;">Daily reminder at <input type="time" value="08:00" style="border:1.5px solid var(--border);border-radius:6px;padding:3px 8px;font-size:13px;"> to reach 40 contacts</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+        <input type="checkbox" id="notif-followup" checked style="width:16px;height:16px;accent-color:var(--orange);">
+        <span style="font-weight:600;font-size:13px;">Follow-up alerts every 3 days (with gift reminder)</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+        <input type="checkbox" id="notif-deadline" checked style="width:16px;height:16px;accent-color:var(--orange);">
+        <span style="font-weight:600;font-size:13px;">Deadline alerts 24 hours in advance</span>
+      </label>
+      <button class="btn btn-primary btn-sm" style="align-self:flex-start;" onclick="requestNotifications()">Enable Browser Notifications</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TAB 6: TEMPLATES
+═══════════════════════════════════════ -->
+<div id="tab-templates" class="tab-pane">
+  <div class="section-header mb20">
+    <div>
+      <div class="section-title">Outreach Templates</div>
+      <div class="section-sub">Video scripts, texts, and emails — personalize before sending</div>
+    </div>
+  </div>
+
+  <div class="template-card">
+    <h3>🎥 30-Second Video Script (Primary Ask)</h3>
+    <div class="template-sub">Use for LinkedIn video, Instagram Reel, or Loom — record once, personalize the name</div>
+    <div class="template-body">"Hey <span class="template-var">[First Name]</span> — I'm Sarah Wang, founder of Zenbill. We help employees fight back against unfair medical bills — think of us as a personal billing advocate in your pocket.
+
+I'd love 15 minutes to share what we're building and ask if you know anyone — a patient, a small business owner, or an investor — who'd benefit from this. No pitch, just a conversation.
+
+Would you be open to a quick call this week? I'll send over a calendar link. Thank you so much — this means everything."</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-sm btn-primary" onclick="copyTemplate('video')">📋 Copy Script</button>
+      <button class="btn btn-sm btn-secondary" onclick="openModal('customize-modal')">✏️ Customize</button>
+    </div>
+  </div>
+
+  <div class="template-card">
+    <h3>✉️ Email Template — PEO / Benefits Partner</h3>
+    <div class="template-sub">For Chris Gates (TriNet), Casey Clark (NAPEO), and similar PEO contacts</div>
+    <div class="template-body">Subject: Zenbill + <span class="template-var">[Org Name]</span> — a benefits perk that reduces employee financial stress
+
+Hi <span class="template-var">[First Name]</span>,
+
+I'm Sarah Wang, founder of Zenbill — we're building the first AI-powered medical bill dispute platform for employees at small and mid-size companies.
+
+Here's the problem we solve: 1 in 3 Americans receives an incorrect medical bill. Most never dispute it. We handle the dispute automatically — employees pay less, HR gets fewer benefit complaints, and PEOs can offer something genuinely differentiated.
+
+I'd love to explore whether Zenbill could be a value-add for <span class="template-var">[Org Name]</span>'s clients. Would you have 20 minutes this month?
+
+Warm regards,
+Sarah Wang
+Founder, Zenbill
+[your phone]</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-sm btn-primary" onclick="copyTemplate('email-peo')">📋 Copy Email</button>
+    </div>
+  </div>
+
+  <div class="template-card">
+    <h3>✉️ Email Template — AARP / AgeTech Collaborative</h3>
+    <div class="template-sub">For Amelia Hay, Amy Shroads, Sasha Spellman</div>
+    <div class="template-body">Subject: Zenbill — medical bill advocacy for older Americans · AgeTech Accelerator
+
+Hi <span class="template-var">[First Name]</span>,
+
+I'm Sarah Wang, founder of Zenbill. We've built an AI tool that automatically disputes unfair medical bills — a problem that hits older adults especially hard (Medicare gaps, complex EOBs, surprise bills).
+
+I'm exploring whether Zenbill would be a fit for the AgeTech Collaborative's next Accelerator cohort. We have <span class="template-var">[key metric]</span> and are actively piloting with <span class="template-var">[pilot partner]</span>.
+
+Could we schedule a 20-minute intro call to explore fit?
+
+Best,
+Sarah Wang | Zenbill</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-sm btn-primary" onclick="copyTemplate('email-aarp')">📋 Copy Email</button>
+    </div>
+  </div>
+
+  <div class="template-card">
+    <h3>💬 Text / LinkedIn DM — Warm Intro Request</h3>
+    <div class="template-sub">Short and human — for cold LinkedIn messages or SMS to warm contacts</div>
+    <div class="template-body">Hi <span class="template-var">[First Name]</span>! I'm Sarah, founder of Zenbill — we help employees fight unfair medical bills automatically. I'm looking to connect with anyone who runs a 40–50 person company or handles HR/benefits. Do you know anyone who might be open to a quick chat? Happy to return the favor any way I can! 🙏</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-sm btn-primary" onclick="copyTemplate('dm')">📋 Copy DM</button>
+    </div>
+  </div>
+
+  <div class="template-card">
+    <h3>🎁 Follow-up Template (Day 3 — with Gift)</h3>
+    <div class="template-sub">Send 3 days after first contact with a small gesture of appreciation</div>
+    <div class="template-body">Hi <span class="template-var">[First Name]</span>,
+
+Just following up on my note from earlier this week about Zenbill. I wanted to send you something small as a thank-you for even considering my ask — <span class="template-var">[gift: a Starbucks gift card / a personalized note / a resource about medical billing]</span>.
+
+No pressure at all — but if 20 minutes opens up, I'd genuinely love to hear your thoughts. Even a "not a fit right now" helps me learn.
+
+Thank you for your time,
+Sarah</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-sm btn-primary" onclick="copyTemplate('followup')">📋 Copy Follow-up</button>
+    </div>
+  </div>
+
+  <div class="template-card">
+    <h3>🤝 Contact Sharing Request</h3>
+    <div class="template-sub">For when someone agrees to help — ask them to share their personal contacts</div>
+    <div class="template-body">Hi <span class="template-var">[First Name]</span>,
+
+Thank you so much for agreeing to help — it means the world to me.
+
+One thing that would be incredibly helpful: if you know anyone else — a founder, HR director, investor, or anyone dealing with medical billing headaches — would you be open to making a warm intro or sharing their contact?
+
+I promise to treat every person you share with the utmost respect and care. And I'll absolutely return the favor.
+
+With deep gratitude,
+Sarah 🙏</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="btn btn-sm btn-primary" onclick="copyTemplate('sharing')">📋 Copy Request</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TAB 7: SYNC
+═══════════════════════════════════════ -->
+<div id="tab-sync" class="tab-pane">
+  <div class="section-header mb20">
+    <div>
+      <div class="section-title">Sync Center</div>
+      <div class="section-sub">Connect Google Calendar, Google Contacts, and your phone contacts</div>
+    </div>
+    <div id="google-status-pill" class="sync-status disconnected">⚫ Not connected</div>
+  </div>
+
+  <!-- SOCIAL CONTACTS — pre-loaded from LinkedIn/Facebook/Instagram exports -->
+  <div class="sync-block" style="border-color:var(--blue);background:var(--blue-pale);">
+    <div class="sync-block-title" style="color:var(--blue);">🌐 Social Contacts — 4,354 contacts ready</div>
+    <div class="sync-block-sub">Extracted directly from your LinkedIn, Facebook, and Instagram exports. <strong>LinkedIn:</strong> 4,155 connections · <strong>Facebook:</strong> 47 friends · <strong>Instagram:</strong> 152 followers/following · All pre-deduplicated.</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Import all 4,354 Social Contacts</h4>
+        <p>Deduplicates by name and email against existing Moses contacts — no duplicates</p>
+      </div>
+      <button class="btn btn-blue" onclick="loadSocialContacts()" id="btn-social">🌐 Import 4,354 Contacts</button>
+    </div>
+    <div id="social-sync-status" style="margin-top:10px;font-size:12px;color:var(--blue);font-weight:600;"></div>
+  </div>
+
+  <!-- MACBOOK CONTACTS — pre-loaded from .abbu -->
+  <div class="sync-block" style="border-color:var(--green);background:var(--green-pale);">
+    <div class="sync-block-title" style="color:var(--green);">🍎 MacBook Contacts — 551 contacts ready</div>
+    <div class="sync-block-sub">Your <code>MacBook- Contacts - 11-04-2026.abbu</code> file has been read directly from your Mac. 551 contacts extracted · 171 with email · 392 with phone · click to import all into Moses.</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Import all 551 MacBook Contacts</h4>
+        <p>Deduplicates by name and email — contacts already in Moses will be skipped</p>
+      </div>
+      <button class="btn btn-green" onclick="loadMacBookContacts()" id="btn-macbook">🍎 Import 551 Contacts</button>
+    </div>
+    <div id="macbook-sync-status" style="margin-top:10px;font-size:12px;color:var(--green);font-weight:600;"></div>
+  </div>
+
+  <!-- GOOGLE ACCOUNT -->
+  <div class="sync-block">
+    <div class="sync-block-title">🔵 Google Account</div>
+    <div class="sync-block-sub">Connect once to sync both Google Calendar and Google Contacts</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
+      <button class="btn btn-blue" id="google-connect-btn" onclick="connectGoogle()">Connect Google Account</button>
+      <button class="btn btn-ghost btn-sm" onclick="openModal('google-setup-modal')">⚙️ Setup / Change Client ID</button>
+      <span id="google-account-label" style="font-size:12px;color:var(--gray);"></span>
+    </div>
+    <div style="background:var(--blue-pale);border:1.5px solid var(--blue);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--mid);line-height:1.6;">
+      <strong style="color:var(--blue);">First time?</strong> You need a free Google Cloud Client ID — it takes about 5 minutes.
+      <button class="btn btn-xs btn-blue" style="margin-left:8px;" onclick="openModal('google-setup-modal')">Show setup steps →</button>
+    </div>
+  </div>
+
+  <!-- GOOGLE CALENDAR SYNC -->
+  <div class="sync-block">
+    <div class="sync-block-title">📅 Google Calendar</div>
+    <div class="sync-block-sub">Pull your Google Calendar events into Moses · Push Moses deadlines back to Google</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Pull from Google Calendar</h4>
+        <p>Import upcoming events from your primary calendar into the Moses Calendar tab</p>
+      </div>
+      <button class="btn btn-sm btn-blue" onclick="syncCalendarIn()" id="btn-pull-cal">⬇ Pull Events</button>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Push all Moses deadlines to Google Calendar</h4>
+        <p>Send every deadline and follow-up reminder from Moses to Google Calendar with 24h alerts</p>
+      </div>
+      <button class="btn btn-sm btn-primary" onclick="pushAllEventsToGCal()" id="btn-push-cal">⬆ Push Deadlines</button>
+    </div>
+    <div id="cal-sync-status" style="margin-top:12px;font-size:12px;color:var(--gray);"></div>
+  </div>
+
+  <!-- GOOGLE CONTACTS SYNC -->
+  <div class="sync-block">
+    <div class="sync-block-title">👤 Google Contacts</div>
+    <div class="sync-block-sub">Import contacts from your Google account — skips duplicates automatically</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Import Google Contacts</h4>
+        <p>Pulls all contacts from your Google account into Moses. Deduplicates by name and email.</p>
+      </div>
+      <button class="btn btn-sm btn-green" onclick="syncGoogleContacts()" id="btn-google-contacts">⬇ Import Contacts</button>
+    </div>
+    <div id="gcontacts-sync-status" style="margin-top:12px;font-size:12px;color:var(--gray);"></div>
+  </div>
+
+  <!-- PHONE CONTACTS -->
+  <div class="sync-block">
+    <div class="sync-block-title">📱 Phone Contacts (iOS & Android)</div>
+    <div class="sync-block-sub">Two methods — Contact Picker works on mobile Chrome/Safari; vCard works everywhere</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Contact Picker API</h4>
+        <p>Direct picker from your phone's contacts app — works on Android Chrome and iOS Safari 14.5+. Open Moses on your phone to use this.</p>
+      </div>
+      <button class="btn btn-sm btn-primary" onclick="pickPhoneContacts()">📲 Open Phone Contacts</button>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Import vCard (.vcf) file</h4>
+        <p>Export from iOS Contacts, Google Contacts, Android, Outlook or LinkedIn — drag and drop the .vcf file</p>
+      </div>
+      <button class="btn btn-sm btn-secondary" onclick="openModal('vcf-modal')">⬆ Upload .vcf</button>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>How to export from iPhone</h4>
+        <p>Contacts app → Select All → Share → AirDrop to your Mac → open the .vcf file → drag it here</p>
+      </div>
+      <span style="font-size:12px;color:var(--gray);">iOS guide</span>
+    </div>
+    <div id="phone-sync-status" style="margin-top:12px;font-size:12px;color:var(--gray);"></div>
+  </div>
+
+  <!-- LINKEDIN -->
+  <div class="sync-block">
+    <div class="sync-block-title">💼 LinkedIn Connections</div>
+    <div class="sync-block-sub">Export your connections from LinkedIn and import them directly — includes name, company, title, and email where available</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Import LinkedIn Connections CSV</h4>
+        <p>LinkedIn exports a <code>Connections.csv</code> file with columns: First Name, Last Name, Email Address, Company, Position, Connected On</p>
+      </div>
+      <button class="btn btn-sm btn-blue" onclick="openModal('linkedin-modal')">⬆ Upload Connections.csv</button>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>How to export from LinkedIn</h4>
+        <p>Me → Settings & Privacy → Data Privacy → <strong>Get a copy of your data</strong> → select "Connections" only → Request archive → download the zip → open <code>Connections.csv</code> inside</p>
+      </div>
+      <a href="https://www.linkedin.com/mypreferences/d/download-my-data" target="_blank" class="btn btn-xs btn-blue">Open LinkedIn Export →</a>
+    </div>
+    <div id="linkedin-sync-status" style="margin-top:12px;font-size:12px;color:var(--gray);"></div>
+  </div>
+
+  <!-- INSTAGRAM -->
+  <div class="sync-block">
+    <div class="sync-block-title">📸 Instagram Followers & Following</div>
+    <div class="sync-block-sub">Download your Instagram data and import your followers and following list as contacts</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Import from Instagram Data Export</h4>
+        <p>Instagram exports <code>followers_1.json</code> and <code>following.json</code> — upload either or both. Imports username + profile URL as contact.</p>
+      </div>
+      <button class="btn btn-sm btn-pink" onclick="openModal('instagram-modal')">⬆ Upload Instagram JSON</button>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>How to export from Instagram</h4>
+        <p>Settings → <strong>Your Activity</strong> → Download your information → select <strong>Followers and Following</strong> → format: <strong>JSON</strong> → Download → upload the files here</p>
+      </div>
+      <a href="https://accountscenter.instagram.com/info_and_permissions/dyi/" target="_blank" class="btn btn-xs btn-pink">Open Instagram Export →</a>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Paste usernames directly</h4>
+        <p>Or paste a list of Instagram handles (one per line) and Moses will create contacts for each</p>
+      </div>
+      <button class="btn btn-xs btn-secondary" onclick="openModal('instagram-modal')">Paste Usernames</button>
+    </div>
+    <div id="instagram-sync-status" style="margin-top:12px;font-size:12px;color:var(--gray);"></div>
+  </div>
+
+  <!-- FACEBOOK -->
+  <div class="sync-block">
+    <div class="sync-block-title">👥 Facebook Friends</div>
+    <div class="sync-block-sub">Download your Facebook data and import your friends list — Facebook's export includes names and timestamps; emails appear when a friend shared theirs with you</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Import from Facebook Data Export</h4>
+        <p>Facebook exports <code>friends.json</code> inside <code>friends_and_followers/</code> — upload it here. Moses reads the <code>friends_v2</code> array automatically.</p>
+      </div>
+      <button class="btn btn-sm btn-blue" style="background:#1877F2;" onclick="openModal('facebook-modal')">⬆ Upload friends.json</button>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>How to export from Facebook</h4>
+        <p>Settings → <strong>Your Facebook information → Download your information</strong> → select <strong>Friends and followers</strong> → format: <strong>JSON</strong> → Create file → download zip → open <code>friends_and_followers/friends.json</code></p>
+      </div>
+      <a href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank" class="btn btn-xs btn-blue" style="background:#1877F2;border:none;">Open Facebook Export →</a>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Paste names directly</h4>
+        <p>Or paste a list of Facebook friend names (one per line) to add them quickly</p>
+      </div>
+      <button class="btn btn-xs btn-secondary" onclick="openModal('facebook-modal')">Paste Names</button>
+    </div>
+    <div id="facebook-sync-status" style="margin-top:12px;font-size:12px;color:var(--gray);"></div>
+  </div>
+
+  <!-- EMAIL CONTACTS -->
+  <div class="sync-block">
+    <div class="sync-block-title">✉️ Email Contacts</div>
+    <div class="sync-block-sub">Scan Gmail sent mail for everyone you've ever emailed · or import from Outlook, Yahoo Mail, Apple Mail, or Thunderbird</div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Scan Gmail Sent Mail</h4>
+        <p>Reads your last 100 sent emails and extracts every unique To/CC address — the people you've actually emailed are your warmest contacts</p>
+      </div>
+      <button class="btn btn-sm btn-primary" onclick="scanGmailSent()" id="btn-gmail-scan">📧 Scan Gmail Sent</button>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Import from Outlook, Yahoo Mail, Thunderbird, or Apple Mail</h4>
+        <p>Upload a contacts export file — Moses auto-detects Outlook CSV, Yahoo CSV, Thunderbird LDIF, and generic email CSV formats</p>
+      </div>
+      <button class="btn btn-sm btn-secondary" onclick="openModal('email-contacts-modal')">⬆ Upload Export File</button>
+    </div>
+    <div class="sync-row">
+      <div class="sync-row-info">
+        <h4>Paste email addresses</h4>
+        <p>Paste a list of raw email addresses (one per line) — Moses creates a contact for each</p>
+      </div>
+      <button class="btn btn-xs btn-ghost" onclick="openModal('email-contacts-modal')">Paste Emails</button>
+    </div>
+    <div id="email-sync-status" style="margin-top:12px;font-size:12px;color:var(--gray);"></div>
+  </div>
+
+  <!-- LAST SYNC LOG -->
+  <div class="sync-block">
+    <div class="sync-block-title">📋 Sync Log</div>
+    <div id="sync-log"><p style="font-size:12px;color:var(--gray);">No syncs yet.</p></div>
+  </div>
+</div>
+
+<!-- TAB 8: MESSAGES -->
+<div id="tab-messages" class="tab-pane">
+  <div class="section-header mb16">
+    <div>
+      <div class="section-title">Message Generator</div>
+      <div class="section-sub">Tailored LinkedIn notes (≤300 chars) and 3-paragraph emails for every ZenBill strategy contact</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-secondary btn-sm" onclick="openModal('zenbill-info-modal')">⚡ Update ZenBill Stats</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('add-contact-modal')">+ Add Contact</button>
+    </div>
+  </div>
+
+  <!-- ZENBILL INFO HUB (collapsed summary) -->
+  <div class="info-hub mb20">
+    <div class="info-hub-title">⚡ ZenBill Stats powering these messages — <button class="btn btn-xs btn-ghost" onclick="openModal('zenbill-info-modal')" style="margin-left:4px;">Edit</button></div>
+    <div id="info-hub-summary" style="font-size:12px;color:var(--mid);display:flex;flex-wrap:wrap;gap:12px;"></div>
+  </div>
+
+  <!-- FILTER CHIPS -->
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+    <div class="chip active" data-mtype="all" onclick="setMsgFilter(this,'all')">All (24)</div>
+    <div class="chip" data-mtype="investor" onclick="setMsgFilter(this,'investor')">💰 Investors</div>
+    <div class="chip" data-mtype="partner" onclick="setMsgFilter(this,'partner')">🤝 Partners</div>
+    <div class="chip" data-mtype="expert" onclick="setMsgFilter(this,'expert')">🎓 Experts</div>
+    <div class="chip" data-mtype="large-company" onclick="setMsgFilter(this,'large-company')">🏢 Large Co</div>
+    <div class="chip" data-mtype="competitor" onclick="setMsgFilter(this,'competitor')">⚔️ Competitors</div>
+  </div>
+
+  <div class="msg-layout">
+    <!-- LEFT: contact list -->
+    <div>
+      <div class="msg-contact-list" id="msg-contact-list"></div>
+    </div>
+    <!-- RIGHT: message panel -->
+    <div id="msg-panel">
+      <div style="text-align:center;padding:60px 20px;color:var(--gray);">
+        <div style="font-size:36px;margin-bottom:12px;">✍️</div>
+        <div style="font-family:'Nunito',sans-serif;font-weight:700;font-size:15px;">Select a contact to see their tailored messages</div>
+        <div style="font-size:12px;margin-top:6px;">LinkedIn note (≤300 chars) + 3-paragraph email, ready to copy and send</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- FAB -->
+<button id="fab" onclick="openModal('add-contact-modal')" title="Add Contact">+</button>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- ═══════════════════════════════════════
+     MODALS
+═══════════════════════════════════════ -->
+
+<!-- ADD CONTACT MODAL -->
+<div class="modal-bg" id="add-contact-modal">
+  <div class="modal">
+    <h2>Add Contact</h2>
+    <div class="modal-sub">Add a new contact to your Moses pipeline</div>
+    <div class="form-row">
+      <div class="form-group"><label>First Name</label><input type="text" id="f-fname" placeholder="Sarah"></div>
+      <div class="form-group"><label>Last Name</label><input type="text" id="f-lname" placeholder="Wang"></div>
+    </div>
+    <div class="form-group"><label>Title / Role</label><input type="text" id="f-title" placeholder="VP of Partnerships"></div>
+    <div class="form-group"><label>Organization</label><input type="text" id="f-org" placeholder="TriNet"></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="f-cat">
+          <option value="customer">🎯 Potential Client</option>
+          <option value="partner">🤝 Partner</option>
+          <option value="investor">💰 Investor</option>
+          <option value="thought-leader">💡 Thought Leader</option>
+          <option value="general">General</option>
+          <option value="peo">PEO</option>
+          <option value="aarp">AARP / AgeTech</option>
+          <option value="harvard">Harvard Alumni</option>
+          <option value="smallco">Small Company (40–50 employees)</option>
+          <option value="foundation">Foundation</option>
+          <option value="expert">Expert / Advisor</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select id="f-priority">
+          <option value="high">High</option>
+          <option value="med">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="email@org.com"></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="f-phone" placeholder="(555) 000-0000"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>LinkedIn URL</label><input type="url" id="f-linkedin" placeholder="https://linkedin.com/in/…"></div>
+      <div class="form-group"><label>Outreach Deadline</label><input type="date" id="f-deadline"></div>
+    </div>
+    <div class="form-group"><label>Notes</label><textarea id="f-notes" rows="3" placeholder="How to reach them, what to ask, any warm connection…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('add-contact-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addContact()">Add to Pipeline 🕊️</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOG OUTREACH MODAL -->
+<div class="modal-bg" id="log-outreach-modal">
+  <div class="modal">
+    <h2>Log Outreach</h2>
+    <div class="modal-sub">Record a message you just sent</div>
+    <div class="form-group">
+      <label>Contact</label>
+      <select id="lo-contact" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;"></select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Type</label>
+        <select id="lo-type">
+          <option value="email">Email</option>
+          <option value="linkedin">LinkedIn DM</option>
+          <option value="text">Text / SMS</option>
+          <option value="call">Phone Call</option>
+          <option value="instagram">Instagram DM</option>
+          <option value="facebook">Facebook Message</option>
+          <option value="video">Video Message</option>
+          <option value="inperson">In Person</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="lo-date">
+      </div>
+    </div>
+    <div class="form-group"><label>Message Summary</label><textarea id="lo-msg" rows="3" placeholder="Brief summary of what you sent…"></textarea></div>
+    <div class="form-group">
+      <label>Response?</label>
+      <select id="lo-response">
+        <option value="none">No response yet</option>
+        <option value="positive">Positive 🙌</option>
+        <option value="neutral">Neutral / interested</option>
+        <option value="negative">Declined</option>
+        <option value="meeting">Meeting scheduled 🎉</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('log-outreach-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="logOutreach()">Log It ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOG GIFT MODAL -->
+<div class="modal-bg" id="log-gift-modal">
+  <div class="modal">
+    <h2>Log Gift</h2>
+    <div class="modal-sub">Track a gift sent as part of your follow-up</div>
+    <div class="form-group">
+      <label>Contact</label>
+      <select id="lg-contact" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;"></select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Gift Type</label>
+        <select id="lg-type">
+          <option value="☕ Coffee gift card">☕ Coffee gift card</option>
+          <option value="📚 Book">📚 Book</option>
+          <option value="🌸 Handwritten note">🌸 Handwritten note</option>
+          <option value="🍰 DoorDash credit">🍰 DoorDash credit</option>
+          <option value="🎟️ Event ticket">🎟️ Event ticket</option>
+          <option value="📊 Useful resource / report">📊 Useful resource / report</option>
+          <option value="🛍️ Other gift">🛍️ Other gift</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Date Sent</label><input type="date" id="lg-date"></div>
+    </div>
+    <div class="form-group"><label>Notes</label><input type="text" id="lg-notes" placeholder="Any extra detail…"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('log-gift-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="logGift()">Log Gift 🎁</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD EVENT MODAL -->
+<div class="modal-bg" id="add-event-modal">
+  <div class="modal">
+    <h2>Add Deadline / Reminder</h2>
+    <div class="form-group"><label>Title</label><input type="text" id="ev-title" placeholder="Message Casey Clark at NAPEO"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Date</label><input type="date" id="ev-date"></div>
+      <div class="form-group"><label>Type</label>
+        <select id="ev-type">
+          <option value="outreach">Outreach deadline</option>
+          <option value="followup">Follow-up</option>
+          <option value="meeting">Meeting</option>
+          <option value="apply">Application deadline</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Notes</label><textarea id="ev-notes" rows="2" placeholder="Any details…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('add-event-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addEvent()">Save Deadline</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="modal-bg" id="import-modal">
+  <div class="modal">
+    <h2>Import Contacts</h2>
+    <div class="modal-sub">Upload a CSV or paste data from your phone, LinkedIn, or email</div>
+    <div class="import-box" onclick="document.getElementById('csv-file').click()">
+      <div class="import-icon">📂</div>
+      <h4>Click to upload CSV</h4>
+      <p>Columns: Name, Title, Org, Email, Phone, Category, Notes<br>Or drag and drop your file here</p>
+      <input type="file" id="csv-file" accept=".csv" style="display:none;" onchange="importCSV(event)">
+    </div>
+    <div style="margin:16px 0;text-align:center;color:var(--gray);font-size:12px;">— or paste CSV text below —</div>
+    <div class="form-group"><textarea id="csv-paste" rows="5" placeholder="Name,Title,Org,Email,Phone,Category&#10;John Smith,VP Sales,Acme Corp,john@acme.com,5550001234,investor"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('import-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="importCSVPaste()">Import Contacts</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL CONTACTS MODAL -->
+<div class="modal-bg" id="email-contacts-modal">
+  <div class="modal">
+    <h2>✉️ Import Email Contacts</h2>
+    <div class="modal-sub">Upload an export file from your email client, or paste addresses directly</div>
+
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+      <button class="btn btn-sm btn-primary"  id="em-tab-file"  onclick="emTab('file')">Upload file</button>
+      <button class="btn btn-sm btn-ghost"    id="em-tab-paste" onclick="emTab('paste')">Paste emails</button>
+    </div>
+
+    <!-- File upload pane -->
+    <div id="em-pane-file">
+      <div class="import-box" id="email-drop-zone" onclick="document.getElementById('email-export-file').click()"
+           ondragover="event.preventDefault();this.style.background='var(--cream)'"
+           ondragleave="this.style.background='var(--orange-pale)'"
+           ondrop="handleEmailFileDrop(event)">
+        <div class="import-icon">📂</div>
+        <h4>Click or drop your export file here</h4>
+        <p>Supports: Outlook .csv · Yahoo Mail .csv · Thunderbird .ldif · Apple Mail vCard .vcf · any generic contacts .csv</p>
+        <input type="file" id="email-export-file" accept=".csv,.ldif,.vcf,.vcard,.txt" style="display:none;" onchange="importEmailFile(event)">
+      </div>
+
+      <div style="margin-top:14px;">
+        <div style="font-weight:700;font-size:12px;color:var(--mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.4px;">How to export from each client:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--mid);">
+          <div style="background:var(--cream);border-radius:8px;padding:10px;">
+            <strong>📧 Outlook (Windows)</strong><br>
+            File → Open &amp; Export → Import/Export → Export to a File → Comma Separated Values → Contacts folder
+          </div>
+          <div style="background:var(--cream);border-radius:8px;padding:10px;">
+            <strong>📧 Outlook (Mac)</strong><br>
+            Contacts → File → Export → Contacts to a CSV file <em>or</em> save as vCard (upload to vCard importer above)
+          </div>
+          <div style="background:var(--cream);border-radius:8px;padding:10px;">
+            <strong>🟣 Yahoo Mail</strong><br>
+            Contacts → Import/Export → Export as Yahoo CSV or vCard
+          </div>
+          <div style="background:var(--cream);border-radius:8px;padding:10px;">
+            <strong>🦅 Thunderbird</strong><br>
+            Address Book → Tools → Export → LDIF format (.ldif) → upload here
+          </div>
+          <div style="background:var(--cream);border-radius:8px;padding:10px;">
+            <strong>🍎 Apple Mail</strong><br>
+            Use Contacts.app → File → Export → Contacts Archive → upload to the vCard importer (Sync → Phone Contacts)
+          </div>
+          <div style="background:var(--cream);border-radius:8px;padding:10px;">
+            <strong>📊 Any CSV</strong><br>
+            Any file with a column named "email", "e-mail", or "email address" — Moses finds it automatically
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paste pane -->
+    <div id="em-pane-paste" style="display:none;">
+      <div class="form-group">
+        <label>Paste email addresses (one per line, or comma-separated)</label>
+        <textarea id="em-email-paste" rows="8" placeholder="john.smith@company.com&#10;jane.doe@example.org&#10;contact@startup.io&#10;..."></textarea>
+      </div>
+      <div style="font-size:12px;color:var(--gray);margin-bottom:10px;">Moses will create a contact for each address, using the username as the name and the domain as the company.</div>
+      <button class="btn btn-primary" onclick="importEmailAddressList()">Import Addresses</button>
+    </div>
+
+    <div id="email-import-result" style="font-size:13px;color:var(--green);font-weight:700;margin-top:12px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('email-contacts-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- FACEBOOK IMPORT MODAL -->
+<div class="modal-bg" id="facebook-modal">
+  <div class="modal">
+    <h2>👥 Import Facebook Friends</h2>
+    <div class="modal-sub">Upload <code>friends.json</code> from your Facebook data export, or paste names directly</div>
+
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button class="btn btn-sm btn-primary" id="fb-tab-file" onclick="fbTab('file')">Upload friends.json</button>
+      <button class="btn btn-sm btn-ghost" id="fb-tab-paste" onclick="fbTab('paste')">Paste names</button>
+    </div>
+
+    <!-- File upload pane -->
+    <div id="fb-pane-file">
+      <div class="import-box" id="facebook-drop-zone" onclick="document.getElementById('facebook-file').click()"
+           ondragover="event.preventDefault();this.style.background='var(--cream)'"
+           ondragleave="this.style.background='var(--orange-pale)'"
+           ondrop="handleFacebookDrop(event)">
+        <div class="import-icon">👥</div>
+        <h4>Click or drop friends.json here</h4>
+        <p>From <code>friends_and_followers/friends.json</code> inside your Facebook export zip</p>
+        <input type="file" id="facebook-file" accept=".json,.html,.htm" style="display:none;" onchange="importFacebookFile(event)">
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-weight:700;font-size:12px;color:var(--mid);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.4px;">Step-by-step Facebook export:</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="setup-step"><div class="step-num">1</div><div class="step-text">Go to <a href="https://accountscenter.facebook.com/info_and_permissions/dyi/" target="_blank">Facebook → Settings → Your Facebook information → Download your information</a></div></div>
+          <div class="setup-step"><div class="step-num">2</div><div class="step-text">Click <strong>Download or transfer information</strong> → select your profile → <strong>Some of your information</strong></div></div>
+          <div class="setup-step"><div class="step-num">3</div><div class="step-text">Check <strong>Friends and followers</strong> only → format: <strong>JSON</strong> → Date range: All time → <strong>Create file</strong></div></div>
+          <div class="setup-step"><div class="step-num">4</div><div class="step-text">Facebook notifies you when ready → download zip → open it → find <code>friends_and_followers/friends.json</code> → drag it onto the box above</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paste pane -->
+    <div id="fb-pane-paste" style="display:none;">
+      <div class="form-group">
+        <label>Paste Facebook friend names (one per line)</label>
+        <textarea id="fb-name-paste" rows="8" placeholder="John Smith&#10;Jane Doe&#10;Robert Chen&#10;..."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="importFacebookNames()">Import Names</button>
+    </div>
+
+    <div id="facebook-result" style="font-size:13px;color:var(--green);font-weight:700;margin-top:12px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('facebook-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- LINKEDIN IMPORT MODAL -->
+<div class="modal-bg" id="linkedin-modal">
+  <div class="modal">
+    <h2>💼 Import LinkedIn Connections</h2>
+    <div class="modal-sub">Upload the <code>Connections.csv</code> from your LinkedIn data export</div>
+
+    <div class="import-box" id="linkedin-drop-zone" onclick="document.getElementById('linkedin-file').click()"
+         ondragover="event.preventDefault();this.style.background='var(--cream)'"
+         ondragleave="this.style.background='var(--orange-pale)'"
+         ondrop="handleLinkedInDrop(event)">
+      <div class="import-icon">💼</div>
+      <h4>Click or drop Connections.csv here</h4>
+      <p>LinkedIn format: First Name, Last Name, Email Address, Company, Position, Connected On</p>
+      <input type="file" id="linkedin-file" accept=".csv" style="display:none;" onchange="importLinkedInFile(event)">
+    </div>
+
+    <div style="margin:16px 0;">
+      <div style="font-weight:700;font-size:12px;color:var(--mid);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.4px;">Step-by-step LinkedIn export:</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div class="setup-step"><div class="step-num">1</div><div class="step-text">Go to <a href="https://www.linkedin.com/mypreferences/d/download-my-data" target="_blank">linkedin.com → Settings &amp; Privacy → Data Privacy → Get a copy of your data</a></div></div>
+        <div class="setup-step"><div class="step-num">2</div><div class="step-text">Select <strong>"Connections"</strong> only (faster download — no need for full archive)</div></div>
+        <div class="setup-step"><div class="step-num">3</div><div class="step-text">Click <strong>Request archive</strong> → LinkedIn emails you a link within minutes</div></div>
+        <div class="setup-step"><div class="step-num">4</div><div class="step-text">Download the zip → open it → drag <code>Connections.csv</code> onto the box above</div></div>
+      </div>
+    </div>
+
+    <div id="linkedin-result" style="font-size:13px;color:var(--green);font-weight:700;margin-bottom:8px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('linkedin-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- INSTAGRAM IMPORT MODAL -->
+<div class="modal-bg" id="instagram-modal">
+  <div class="modal">
+    <h2>📸 Import Instagram Contacts</h2>
+    <div class="modal-sub">Upload your Instagram data export files or paste usernames directly</div>
+
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button class="btn btn-sm btn-primary" id="ig-tab-file" onclick="igTab('file')">Upload JSON files</button>
+      <button class="btn btn-sm btn-ghost" id="ig-tab-paste" onclick="igTab('paste')">Paste usernames</button>
+    </div>
+
+    <!-- File upload pane -->
+    <div id="ig-pane-file">
+      <div class="import-box" id="instagram-drop-zone" onclick="document.getElementById('instagram-file').click()"
+           ondragover="event.preventDefault();this.style.background='var(--cream)'"
+           ondragleave="this.style.background='var(--orange-pale)'"
+           ondrop="handleInstagramDrop(event)">
+        <div class="import-icon">📸</div>
+        <h4>Click or drop followers_1.json or following.json</h4>
+        <p>Upload one file at a time — Moses handles both formats automatically</p>
+        <input type="file" id="instagram-file" accept=".json,.html,.htm" style="display:none;" onchange="importInstagramFile(event)">
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-weight:700;font-size:12px;color:var(--mid);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.4px;">Step-by-step Instagram export:</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="setup-step"><div class="step-num">1</div><div class="step-text">Instagram app → <strong>Settings → Your Activity → Download your information</strong><br>Or go to <a href="https://accountscenter.instagram.com/info_and_permissions/dyi/" target="_blank">accountscenter.instagram.com</a></div></div>
+          <div class="setup-step"><div class="step-num">2</div><div class="step-text">Select your account → <strong>Some of your information</strong> → check <strong>Followers and Following</strong></div></div>
+          <div class="setup-step"><div class="step-num">3</div><div class="step-text">Format: <strong>JSON</strong> (not HTML) · Date range: All time → <strong>Create files</strong></div></div>
+          <div class="setup-step"><div class="step-num">4</div><div class="step-text">Instagram emails you when ready → download zip → inside <code>connections/followers_and_following/</code> → upload <code>followers_1.json</code> and/or <code>following.json</code></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paste pane -->
+    <div id="ig-pane-paste" style="display:none;">
+      <div class="form-group">
+        <label>Paste Instagram usernames (one per line)</label>
+        <textarea id="ig-username-paste" rows="8" placeholder="sarahwang&#10;zenbillapp&#10;johndoe123&#10;..."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="importInstagramUsernames()">Import Usernames</button>
+    </div>
+
+    <div id="instagram-result" style="font-size:13px;color:var(--green);font-weight:700;margin-top:12px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('instagram-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- GOOGLE SETUP MODAL -->
+<div class="modal-bg" id="google-setup-modal">
+  <div class="modal">
+    <h2>🔵 Google Cloud Setup</h2>
+    <div class="modal-sub">One-time 5-minute setup to connect Google Calendar and Contacts</div>
+
+    <div style="margin-bottom:16px;">
+      <div class="setup-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Go to <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a> → Create a new project (name it "Moses CRM" or anything)</div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">2</div>
+        <div class="step-text">In the left menu: <strong>APIs &amp; Services → Library</strong><br>
+          Search for and enable: <code>Google Calendar API</code>, <code>People API</code>, and <code>Gmail API</code></div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>APIs &amp; Services → OAuth consent screen</strong><br>
+          Select <code>External</code> → fill in App name ("Moses") and your email → Save</div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>APIs &amp; Services → Credentials → Create Credentials → OAuth 2.0 Client ID</strong><br>
+          Application type: <code>Web application</code><br>
+          Under "Authorized JavaScript origins" add: <code>file://</code> and <code>http://localhost:8080</code></div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">5</div>
+        <div class="step-text">Copy the <strong>Client ID</strong> (looks like <code>xxxx.apps.googleusercontent.com</code>) and paste it below</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Your Google OAuth Client ID</label>
+      <input type="text" id="google-client-id-input" placeholder="123456789-abc.apps.googleusercontent.com" style="font-size:12px;">
+    </div>
+    <div style="font-size:11px;color:var(--gray);margin-top:-6px;margin-bottom:14px;">This is stored only in your browser's local storage — never sent anywhere else.</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('google-setup-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveGoogleClientId()">Save & Connect →</button>
+    </div>
+  </div>
+</div>
+
+<!-- VCARD IMPORT MODAL -->
+<div class="modal-bg" id="vcf-modal">
+  <div class="modal">
+    <h2>📱 Import vCard (.vcf)</h2>
+    <div class="modal-sub">Export contacts from iPhone, Google, Outlook, or LinkedIn — then upload here</div>
+    <div class="import-box" id="vcf-drop-zone" onclick="document.getElementById('vcf-file').click()"
+         ondragover="event.preventDefault();this.style.background='var(--cream)'"
+         ondragleave="this.style.background='var(--orange-pale)'"
+         ondrop="handleVcfDrop(event)">
+      <div class="import-icon">📇</div>
+      <h4>Click or drop your .vcf file here</h4>
+      <p>Supports single contacts and bulk export files<br>Duplicates (same name or email) are skipped automatically</p>
+      <input type="file" id="vcf-file" accept=".vcf,.vcard" style="display:none;" onchange="importVcfFile(event)">
+    </div>
+    <div style="margin:16px 0;">
+      <div style="font-weight:700;font-size:12px;color:var(--mid);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.4px;">How to export from each source:</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--mid);">
+        <div style="background:var(--cream);border-radius:8px;padding:10px;">
+          <strong>🍎 iPhone</strong><br>Contacts app → select contacts → tap Share → choose "vCard" → AirDrop to Mac
+        </div>
+        <div style="background:var(--cream);border-radius:8px;padding:10px;">
+          <strong>🔵 Google Contacts</strong><br>contacts.google.com → select all → Export → vCard (.vcf)
+        </div>
+        <div style="background:var(--cream);border-radius:8px;padding:10px;">
+          <strong>💼 LinkedIn</strong><br>Settings → Data Privacy → Get a copy of your data → Connections → download CSV then import via "Import CSV"
+        </div>
+        <div style="background:var(--cream);border-radius:8px;padding:10px;">
+          <strong>📧 Outlook / Mac Contacts</strong><br>File → Export → vCard / Contacts Archive → upload the .vcf file here
+        </div>
+      </div>
+    </div>
+    <div id="vcf-result" style="font-size:13px;color:var(--green);font-weight:700;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('vcf-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ZENBILL INFO MODAL -->
+<div class="modal-bg" id="zenbill-info-modal">
+  <div class="modal">
+    <h2>⚡ ZenBill Stats</h2>
+    <div class="modal-sub">These stats power the auto-generated messages — update them as your traction grows</div>
+    <div class="form-row">
+      <div class="form-group"><label>Patients Supported</label><input type="text" id="zb-patients" value="6,400+"></div>
+      <div class="form-group"><label>Disputes Analyzed</label><input type="text" id="zb-disputes" value="657,040"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Cases Filed</label><input type="text" id="zb-filed" value="4"></div>
+      <div class="form-group"><label>Win Rate</label><input type="text" id="zb-wins" value="4/4 (100%)"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Average Savings</label><input type="text" id="zb-savings" value="~75%"></div>
+      <div class="form-group"><label>Detroit Pilot Status</label><input type="text" id="zb-detroit" value="Launching Q1 2027"></div>
+    </div>
+    <div class="form-group"><label>Key Partners (comma-separated)</label><input type="text" id="zb-partners" value="Lakeshore Legal Aid, Dollar For, Counterforce Health"></div>
+    <div class="form-group"><label>Current Raise / Stage</label><input type="text" id="zb-raise" value="Pre-seed — $750K for 18 months"></div>
+    <div class="form-group"><label>Latest News / Update (shows in generated messages)</label><textarea id="zb-news" rows="2" placeholder="e.g. Just filed our 10th case; signed a referral agreement with..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('zenbill-info-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveZenbillInfo()">Save & Update Messages</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+const today = new Date().toISOString().split('T')[0];
+
+let contacts = [
+  // PEOs
+  { id:1, name:"Casey Clark", title:"President & CEO", org:"NAPEO", cat:"peo", email:"info@napeo.org", phone:"703-836-0466", linkedin:"https://www.linkedin.com/search/results/people/?keywords=casey+clark+napeo", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Ask about associate (vendor) membership via the 'For Service Providers' page — puts you in front of 500+ member PEOs.", outreach:[], gifts:[] },
+  { id:2, name:"Chris Gates", title:"Executive Director, Partnership Strategy", org:"TriNet", cat:"peo", email:"", phone:"888-874-6388", linkedin:"https://www.linkedin.com/search/results/people/?keywords=chris+gates+trinet", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Integration Partners and Strategic Alliances programs: trinet.com/partners/registration. Start here first.", outreach:[], gifts:[] },
+  { id:3, name:"Ryan Goethals", title:"VP Channel Sales", org:"TriNet", cat:"peo", email:"", phone:"888-874-6388", linkedin:"https://www.linkedin.com/search/results/people/?keywords=ryan+goethals+trinet", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"Secondary contact at TriNet after Chris Gates.", outreach:[], gifts:[] },
+  { id:4, name:"Ben Codi", title:"Divisional VP Broker Sales", org:"TriNet", cat:"peo", email:"", phone:"888-874-6388", linkedin:"https://www.linkedin.com/search/results/people/?keywords=ben+codi+trinet", status:"new", priority:"low", lastContact:null, nextFollowUp:null, deadline:null, notes:"Tertiary TriNet contact.", outreach:[], gifts:[] },
+  { id:5, name:"Owner / Office Lead", title:"Owner", org:"Employers Resource (Anaheim)", cat:"peo", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=employers+resource+anaheim", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Small OC PEO (50-249 staff). Call the office, ask who handles client benefits. Good for first interview.", outreach:[], gifts:[] },
+  { id:6, name:"Owner", title:"Owner", org:"Optimum HR (Santa Ana)", cat:"peo", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=optimum+hr+santa+ana", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Very small shop (2-9 staff). Owner decides everything — excellent first interview target.", outreach:[], gifts:[] },
+  { id:7, name:"Owner", title:"Owner", org:"People Clariti (Irvine)", cat:"peo", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=people+clariti+irvine", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Small PEO (2-9 staff) in Irvine. Owner decides everything — good first interview.", outreach:[], gifts:[] },
+  // AARP
+  { id:8, name:"Amelia Hay", title:"VP, Startup Programming", org:"AARP AgeTech Collaborative", cat:"aarp", email:"info@agetechcollaborative.org", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=amelia+hay+aarp", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Best first ask for AARP — runs all startup programs. Apply at agetechcollaborative.org/apply-to-join", outreach:[], gifts:[] },
+  { id:9, name:"Amy Shroads", title:"Director, Startup Program", org:"AARP AgeTech Collaborative", cat:"aarp", email:"info@agetechcollaborative.org", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=amy+shroads+aarp", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Runs the Accelerator day-to-day. Reach after Amelia Hay or simultaneously.", outreach:[], gifts:[] },
+  { id:10, name:"Sasha Spellman", title:"Director, Collaborative Engagement", org:"AARP AgeTech Collaborative", cat:"aarp", email:"info@agetechcollaborative.org", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=sasha+spellman+aarp", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"Connects startups with testbeds and pilot partners.", outreach:[], gifts:[] },
+  { id:11, name:"Andy Miller", title:"SVP, AARP Innovation Labs", org:"AARP", cat:"aarp", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=andy+miller+aarp+innovation+labs", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"Senior sponsor — reach only after a warm intro from Amelia or Amy.", outreach:[], gifts:[] },
+  // Harvard Alumni
+  { id:12, name:"Gary Barkin", title:"President, Harvard Club of Southern California", org:"Harvard Club of So. California", cat:"harvard", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=gary+barkin+harvard", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"AB '86, JD '93. Contact via club form: hcsc.clubs.harvard.edu/contact.html. Ask who leads OC programming.", outreach:[], gifts:[] },
+  { id:13, name:"OC Regional Lead (TBD)", title:"Orange County Regional Lead", org:"Harvard Club of So. California", cat:"harvard", email:"", phone:"", linkedin:"https://alumni.harvard.edu/programs-events/gnn/orange-county", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"Officer page is from 2016-17. Ask Gary Barkin who currently leads OC programming.", outreach:[], gifts:[] },
+  // Small Companies
+  { id:14, name:"HR Lead (TBD)", title:"HR Manager / People Ops", org:"The Koll Co.", cat:"smallco", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=the+koll+company+hr", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"OCBJ Best Places to Work 2026. Find HR lead on LinkedIn. Ask: 'Do you use a PEO or broker for benefits? Which one?'", outreach:[], gifts:[] },
+  { id:15, name:"HR Lead (TBD)", title:"HR Manager / People Ops", org:"Working Wardrobes", cat:"smallco", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=working+wardrobes+hr", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"Nonprofit. OCBJ Best Places to Work 2026.", outreach:[], gifts:[] },
+  { id:16, name:"HR Lead (TBD)", title:"HR Manager / People Ops", org:"The Wooden Floor", cat:"smallco", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=the+wooden+floor+hr", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"Nonprofit. OCBJ Best Places to Work 2026.", outreach:[], gifts:[] },
+  { id:17, name:"HR Lead (TBD)", title:"HR Manager / People Ops", org:"Octane", cat:"smallco", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=octane+oc+hr", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"OCBJ Best Places to Work 2026.", outreach:[], gifts:[] },
+  { id:18, name:"HR Lead (TBD)", title:"HR Manager / People Ops", org:"Syntiant", cat:"smallco", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=syntiant+hr", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"OCBJ Best Places to Work 2026.", outreach:[], gifts:[] },
+  { id:19, name:"HR Lead (TBD)", title:"HR Manager / People Ops", org:"Technologent", cat:"smallco", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=technologent+hr", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"OCBJ Best Places to Work 2026.", outreach:[], gifts:[] },
+  // Foundations
+  { id:20, name:"Grants Team", title:"Grants / Affordability Program", org:"California Health Care Foundation", cat:"foundation", email:"", phone:"510-238-1040", linkedin:"https://www.linkedin.com/company/california-health-care-foundation", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Share the 42,710 CA IMR case analysis. Ask who leads affordability grants & whether they'd fund a patient pilot through a nonprofit partner.", outreach:[], gifts:[] },
+  { id:21, name:"Mark E. Miller, PhD", title:"EVP, Health Care", org:"Arnold Ventures", cat:"foundation", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=mark+miller+arnold+ventures", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Major funder of No Surprises Act. Pitch patient-side Zenbill ONLY — keep Arbitrus out of this conversation.", outreach:[], gifts:[] },
+  { id:22, name:"Jennifer Laudano", title:"VP, Advocacy, Health Care", org:"Arnold Ventures", cat:"foundation", email:"", phone:"", linkedin:"https://www.linkedin.com/search/results/people/?keywords=jennifer+laudano+arnold+ventures", status:"new", priority:"high", lastContact:null, nextFollowUp:null, deadline:null, notes:"Backs hospital billing transparency. Pitch patient-side Zenbill only.", outreach:[], gifts:[] },
+  { id:23, name:"Grants Team", title:"Community Benefit Grants", org:"Hoag Grants Program", cat:"foundation", email:"", phone:"", linkedin:"https://www.linkedin.com/company/hoag-hospital", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"Local OC hospital. Fund nonprofit partners to run 'fight your bill' workshops using Zenbill.", outreach:[], gifts:[] },
+  { id:24, name:"Giving Team", title:"Corporate Foundation", org:"Pacific Life Foundation", cat:"foundation", email:"", phone:"", linkedin:"https://www.linkedin.com/company/pacific-life", status:"new", priority:"med", lastContact:null, nextFollowUp:null, deadline:null, notes:"OCBJ's #1 local corporate giver. Two angles: employee benefit or community pilot through nonprofit partner.", outreach:[], gifts:[] },
+];
+
+let outreachLog = [];
+let giftLog = [];
+let events = [
+  { id:1, title:"Message Casey Clark — NAPEO associate membership inquiry", date:"2026-11-07", type:"outreach", notes:"Call 703-836-0466 or email info@napeo.org" },
+  { id:2, title:"Apply to AARP AgeTech Collaborative Accelerator", date:"2026-11-14", type:"apply", notes:"agetechcollaborative.org/apply-to-join — contact Amelia Hay first" },
+  { id:3, title:"Reach out to Chris Gates at TriNet", date:"2026-11-10", type:"outreach", notes:"trinet.com/partners/registration — Integration Partners program" },
+  { id:4, title:"Contact Gary Barkin — Harvard Club of So. Cal", date:"2026-11-12", type:"outreach", notes:"Use club contact form: hcsc.clubs.harvard.edu/contact.html" },
+  { id:5, title:"OCBJ Best Places to Work — research HR leads", date:"2026-11-08", type:"outreach", notes:"LinkedIn: title 'HR Manager', location Orange County, company 11-50 employees" },
+  { id:6, title:"Reach Mark Miller at Arnold Ventures", date:"2026-11-21", type:"outreach", notes:"Patient-side Zenbill pitch only. No Arbitrus." },
+];
+
+let sortKey = 'name';
+let sortDir = 1;
+let catFilter = 'all';
+
+// ═══════════════════════════════════════
+// LOAD / SAVE
+// ═══════════════════════════════════════
+function save() {
+  localStorage.setItem('moses_contacts', JSON.stringify(contacts));
+  localStorage.setItem('moses_outreach', JSON.stringify(outreachLog));
+  localStorage.setItem('moses_gifts', JSON.stringify(giftLog));
+  localStorage.setItem('moses_events', JSON.stringify(events));
+}
+function load() {
+  const c = localStorage.getItem('moses_contacts');
+  const o = localStorage.getItem('moses_outreach');
+  const g = localStorage.getItem('moses_gifts');
+  const e = localStorage.getItem('moses_events');
+  if (c) contacts = JSON.parse(c);
+  if (o) outreachLog = JSON.parse(o);
+  if (g) giftLog = JSON.parse(g);
+  if (e) events = JSON.parse(e);
+}
+
+// ═══════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════
+function showTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelector(`[data-tab="${name}"]`).classList.add('active');
+  if (name === 'contacts') renderContacts();
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'outreach') renderOutreach();
+  if (name === 'calendar') renderCalendar();
+}
+
+// ═══════════════════════════════════════
+// CONTACTS
+// ═══════════════════════════════════════
+function setCatFilter(el, cat) {
+  catFilter = cat;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderContacts();
+}
+
+function sortContacts(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = 1; }
+  renderContacts();
+}
+
+function renderContacts() {
+  const q = (document.getElementById('contact-search').value||'').toLowerCase();
+  let filtered = contacts.filter(c => {
+    const matchCat = catFilter === 'all' || c.cat === catFilter;
+    const matchQ = !q || c.name.toLowerCase().includes(q) || c.org.toLowerCase().includes(q) || c.title.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  filtered.sort((a,b) => {
+    const av = (a[sortKey]||'').toString().toLowerCase();
+    const bv = (b[sortKey]||'').toString().toLowerCase();
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+  document.getElementById('contacts-count-label').textContent = `${filtered.length} of ${contacts.length} contacts`;
+  const tbody = document.getElementById('contacts-tbody');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:28px;color:var(--gray);">No contacts match. Try a different filter.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(c => `
+    <tr>
+      <td>
+        <div class="contact-name">${c.name}</div>
+        <div class="contact-org">${c.title}</div>
+      </td>
+      <td style="font-weight:600;">${c.org}</td>
+      <td><span class="pill pill-${c.cat}">${catLabel(c.cat)}</span></td>
+      <td><span class="pill pill-${c.status}">${statusLabel(c.status)}</span></td>
+      <td><span class="pill pill-${c.priority}">${c.priority.charAt(0).toUpperCase()+c.priority.slice(1)}</span></td>
+      <td style="color:var(--gray);font-size:12px;">${c.lastContact||'—'}</td>
+      <td style="color:${c.nextFollowUp&&c.nextFollowUp<=today?'var(--pink)':'var(--mid)'};font-size:12px;font-weight:${c.nextFollowUp&&c.nextFollowUp<=today?'700':'400'};">${c.nextFollowUp||'—'}</td>
+      <td>
+        <div class="action-row">
+          <button class="btn btn-xs btn-primary" onclick="quickLog(${c.id})" title="Log outreach">📤</button>
+          ${c.linkedin?`<a href="${c.linkedin}" target="_blank" class="btn btn-xs btn-blue" title="LinkedIn">in</a>`:''}
+          ${c.instagram?`<a href="${c.instagram}" target="_blank" class="btn btn-xs btn-pink" title="Instagram">📸</a>`:''}
+          ${c.facebook?`<a href="${c.facebook}" target="_blank" class="btn btn-xs" style="background:#1877F2;color:white;border-radius:7px;padding:3px 8px;font-size:10px;font-family:'Nunito',sans-serif;font-weight:700;text-decoration:none;" title="Facebook">👥</a>`:''}
+          ${c.email?`<a href="mailto:${c.email}" class="btn btn-xs btn-secondary" title="Email">✉</a>`:''}
+          ${c.phone?`<a href="tel:${c.phone}" class="btn btn-xs btn-green" title="Call">📞</a>`:''}
+          <button class="btn btn-xs btn-ghost" onclick="addToCalendar(${c.id})" title="Add deadline">📅</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function catLabel(cat) {
+  return {
+    peo:'PEO', aarp:'AARP', harvard:'Harvard', smallco:'Small Co',
+    foundation:'Foundation', investor:'Investor', customer:'Potential Client',
+    partner:'Partner', 'thought-leader':'Thought Leader', general:'General',
+    expert:'Expert', 'large-company':'Large Co', competitor:'Competitor'
+  }[cat] || cat;
+}
+function statusLabel(s) {
+  return {new:'New',contacted:'Contacted',responded:'Responded',followup:'Follow-up',meeting:'Meeting',won:'Won ✓',cold:'Cold'}[s]||s;
+}
+
+// ═══════════════════════════════════════
+// ADD CONTACT
+// ═══════════════════════════════════════
+function addContact() {
+  const fname = document.getElementById('f-fname').value.trim();
+  const lname = document.getElementById('f-lname').value.trim();
+  if (!fname) { toast('Please enter a first name', 'warning'); return; }
+  const newC = {
+    id: Date.now(),
+    name: fname + (lname?' '+lname:''),
+    title: document.getElementById('f-title').value.trim(),
+    org: document.getElementById('f-org').value.trim(),
+    cat: document.getElementById('f-cat').value,
+    priority: document.getElementById('f-priority').value,
+    email: document.getElementById('f-email').value.trim(),
+    phone: document.getElementById('f-phone').value.trim(),
+    linkedin: document.getElementById('f-linkedin').value.trim(),
+    deadline: document.getElementById('f-deadline').value,
+    notes: document.getElementById('f-notes').value.trim(),
+    status: 'new',
+    lastContact: null,
+    nextFollowUp: null,
+    outreach: [],
+    gifts: []
+  };
+  contacts.push(newC);
+  save();
+  closeModal('add-contact-modal');
+  ['f-fname','f-lname','f-title','f-org','f-email','f-phone','f-linkedin','f-deadline','f-notes'].forEach(id => document.getElementById(id).value='');
+  toast(`${newC.name} added to pipeline 🕊️`, 'success');
+  updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+}
+
+// ═══════════════════════════════════════
+// OUTREACH
+// ═══════════════════════════════════════
+function populateContactSelects() {
+  const selects = ['lo-contact','lg-contact'];
+  selects.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = contacts.map(c => `<option value="${c.id}">${c.name} — ${c.org}</option>`).join('');
+  });
+}
+
+function quickLog(cid) {
+  populateContactSelects();
+  document.getElementById('lo-contact').value = cid;
+  document.getElementById('lo-date').value = today;
+  openModal('log-outreach-modal');
+}
+
+function logOutreach() {
+  const cid = parseInt(document.getElementById('lo-contact').value);
+  const type = document.getElementById('lo-type').value;
+  const date = document.getElementById('lo-date').value || today;
+  const msg = document.getElementById('lo-msg').value.trim();
+  const response = document.getElementById('lo-response').value;
+
+  const contact = contacts.find(c => c.id === cid);
+  if (!contact) return;
+
+  const entry = { id: Date.now(), cid, contactName: contact.name, org: contact.org, type, date, msg, response };
+  outreachLog.unshift(entry);
+
+  // Update contact
+  contact.lastContact = date;
+  const fu = new Date(date);
+  fu.setDate(fu.getDate() + 3);
+  contact.nextFollowUp = fu.toISOString().split('T')[0];
+  if (response === 'meeting') contact.status = 'meeting';
+  else if (response === 'positive') contact.status = 'responded';
+  else if (response === 'negative') contact.status = 'cold';
+  else contact.status = 'contacted';
+
+  save();
+  closeModal('log-outreach-modal');
+  document.getElementById('lo-msg').value = '';
+  document.getElementById('lo-response').value = 'none';
+  toast(`Logged outreach to ${contact.name} ✓`, 'success');
+  updateStats();
+  renderOutreach();
+  renderDashboard();
+}
+
+function logGift() {
+  const cid = parseInt(document.getElementById('lg-contact').value);
+  const type = document.getElementById('lg-type').value;
+  const date = document.getElementById('lg-date').value || today;
+  const notes = document.getElementById('lg-notes').value.trim();
+  const contact = contacts.find(c => c.id === cid);
+  if (!contact) return;
+  giftLog.unshift({ id: Date.now(), cid, contactName: contact.name, org: contact.org, type, date, notes });
+  save();
+  closeModal('log-gift-modal');
+  toast(`Gift logged for ${contact.name} 🎁`, 'success');
+  renderOutreach();
+}
+
+function renderOutreach() {
+  const todayLogs = outreachLog.filter(l => l.date === today);
+  document.getElementById('out-today').textContent = todayLogs.length;
+  document.getElementById('out-bar').style.width = Math.min(100, (todayLogs.length/40)*100)+'%';
+
+  const fuDue = contacts.filter(c => c.nextFollowUp && c.nextFollowUp <= today && c.status !== 'cold' && c.status !== 'won').length;
+  document.getElementById('out-followup').textContent = fuDue;
+  document.getElementById('out-gifts').textContent = giftLog.length;
+
+  // Log
+  const logEl = document.getElementById('outreach-log');
+  if (!outreachLog.length) { logEl.innerHTML = '<p style="font-size:12px;color:var(--gray);">No outreach logged yet.</p>'; }
+  else {
+    logEl.innerHTML = outreachLog.slice(0,20).map(l => `
+      <div class="log-item">
+        <div class="log-dot" style="background:${typeColor(l.type)};"></div>
+        <div class="log-content">
+          <div class="log-name">${l.contactName} <span style="font-weight:400;color:var(--gray);">· ${l.org}</span></div>
+          <div class="log-msg">${typeIcon(l.type)} ${l.type.charAt(0).toUpperCase()+l.type.slice(1)}${l.msg?` · "${l.msg.substring(0,80)}${l.msg.length>80?'…':''}"`:''}</div>
+          <div class="log-time">${l.date}${l.response!=='none'?' · Response: '+responseLabel(l.response):''}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Gifts
+  const giftEl = document.getElementById('gift-list');
+  if (!giftLog.length) { giftEl.innerHTML = '<p style="font-size:12px;color:var(--gray);">No gifts logged yet.</p>'; }
+  else {
+    giftEl.innerHTML = giftLog.slice(0,10).map(g => `
+      <div class="gift-item">
+        <div class="gift-emoji">${g.type.split(' ')[0]}</div>
+        <div>
+          <div style="font-weight:700;font-size:13px;">${g.contactName}</div>
+          <div style="font-size:12px;color:var(--mid);">${g.type} · ${g.date}</div>
+          ${g.notes?`<div style="font-size:11px;color:var(--gray);">${g.notes}</div>`:''}
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function typeColor(t) {
+  return {email:'var(--blue)',linkedin:'#0A66C2',text:'var(--green)',call:'var(--orange)',instagram:'var(--pink)',facebook:'#1877F2',video:'var(--purple)',inperson:'var(--yellow)'}[t]||'var(--gray)';
+}
+function typeIcon(t) {
+  return {email:'✉️',linkedin:'💼',text:'💬',call:'📞',instagram:'📸',facebook:'👥',video:'🎥',inperson:'🤝'}[t]||'📤';
+}
+function responseLabel(r) {
+  return {positive:'Positive 🙌',neutral:'Neutral',negative:'Declined',meeting:'Meeting scheduled 🎉',none:'None yet'}[r]||r;
+}
+
+// ═══════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════
+function renderDashboard() {
+  updateStats();
+
+  // Follow-ups due
+  const fuList = document.getElementById('followup-list');
+  const fuContacts = contacts.filter(c => c.nextFollowUp && c.nextFollowUp <= today && c.status !== 'cold' && c.status !== 'won').slice(0,8);
+  if (!fuContacts.length) fuList.innerHTML = '<p style="font-size:12px;color:var(--gray);">No follow-ups due. Keep reaching out!</p>';
+  else fuList.innerHTML = fuContacts.map(c => `
+    <div class="followup-alert">
+      <div>
+        <div class="fa-name">${c.name} · ${c.org}</div>
+        <div class="fa-info">Last contact: ${c.lastContact||'never'} · Due: ${c.nextFollowUp}</div>
+      </div>
+      <button class="btn btn-xs btn-primary" onclick="quickLog(${c.id})">Log Follow-up</button>
+    </div>
+  `).join('');
+
+  // Recent activity
+  const actEl = document.getElementById('recent-activity');
+  if (!outreachLog.length) actEl.innerHTML = '<p style="font-size:12px;color:var(--gray);">No activity yet.</p>';
+  else actEl.innerHTML = outreachLog.slice(0,8).map(l => `
+    <div class="log-item">
+      <div class="log-dot" style="background:${typeColor(l.type)};"></div>
+      <div class="log-content">
+        <div class="log-name">${l.contactName}</div>
+        <div class="log-msg">${typeIcon(l.type)} ${l.type} · ${l.date}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Weekly bars
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const wbEl = document.getElementById('week-bars');
+  wbEl.innerHTML = days.map((d,i) => {
+    const count = Math.floor(Math.random()*35+5); // placeholder
+    const pct = Math.min(100,(count/40)*100);
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <span style="font-size:11px;color:var(--gray);width:28px;font-weight:700;">${d}</span>
+      <div style="flex:1;background:var(--border);border-radius:99px;height:8px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:${pct>=100?'var(--green)':'var(--orange)'};border-radius:99px;"></div>
+      </div>
+      <span style="font-size:11px;color:var(--mid);width:30px;text-align:right;font-weight:600;">${count}/40</span>
+    </div>`;
+  }).join('');
+}
+
+function updateStats() {
+  const todayCount = outreachLog.filter(l => l.date === today).length;
+  const fuCount = contacts.filter(c => c.nextFollowUp && c.nextFollowUp <= today && c.status !== 'cold' && c.status !== 'won').length;
+  const responded = contacts.filter(c => ['responded','meeting','won'].includes(c.status)).length;
+  const respRate = contacts.length ? Math.round((responded/contacts.length)*100) : 0;
+
+  document.getElementById('stat-today').textContent = todayCount;
+  document.getElementById('today-bar').style.width = Math.min(100,(todayCount/40)*100)+'%';
+  document.getElementById('stat-followups').textContent = fuCount;
+  document.getElementById('stat-total').textContent = contacts.length;
+  document.getElementById('stat-responses').textContent = responded;
+  document.getElementById('resp-bar').style.width = respRate+'%';
+  document.getElementById('hdr-count').textContent = todayCount;
+  document.getElementById('notif-badge').textContent = fuCount;
+  document.getElementById('out-today').textContent = todayCount;
+  document.getElementById('out-bar').style.width = Math.min(100,(todayCount/40)*100)+'%';
+  document.getElementById('out-followup').textContent = fuCount;
+  document.getElementById('out-gifts').textContent = giftLog.length;
+}
+
+function buildDailyQueue() {
+  const notContacted = contacts.filter(c => !c.lastContact || c.lastContact < today);
+  const prioritized = [...notContacted].sort((a,b) => {
+    const p = {high:0,med:1,low:2};
+    return (p[a.priority]||1) - (p[b.priority]||1);
+  }).slice(0,40);
+
+  const qEl = document.getElementById('daily-queue');
+  if (!prioritized.length) { qEl.innerHTML = '<p style="font-size:12px;color:var(--gray);">All contacts have been messaged today!</p>'; return; }
+  qEl.innerHTML = prioritized.map((c,i) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span style="font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;color:var(--orange);min-width:22px;">${i+1}</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:12px;">${c.name}</div>
+        <div style="font-size:11px;color:var(--gray);">${c.org} · <span class="pill pill-${c.priority}" style="font-size:9px;padding:1px 6px;">${c.priority}</span></div>
+      </div>
+      <button class="btn btn-xs btn-primary" onclick="quickLog(${c.id})">Log</button>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════
+function renderCalendar() {
+  const urgent = events.filter(e => e.date >= today && e.date <= addDays(today,7)).sort((a,b)=>a.date.localeCompare(b.date));
+  const upcoming = events.filter(e => e.date > addDays(today,7) && e.date <= addDays(today,30)).sort((a,b)=>a.date.localeCompare(b.date));
+  const fuEvents = contacts.filter(c => c.nextFollowUp && c.nextFollowUp >= today && c.nextFollowUp <= addDays(today,7))
+    .map(c => ({ id:'fu_'+c.id, title:`Follow-up: ${c.name} (${c.org})`, date:c.nextFollowUp, type:'followup', notes:'3-day follow-up · Include a gift 🎁' }));
+
+  const allUrgent = [...urgent, ...fuEvents].sort((a,b)=>a.date.localeCompare(b.date));
+
+  document.getElementById('cal-urgent').innerHTML = allUrgent.length
+    ? allUrgent.map(e => calItem(e)).join('')
+    : '<p style="font-size:12px;color:var(--gray);">Nothing urgent this week.</p>';
+
+  document.getElementById('cal-upcoming').innerHTML = upcoming.length
+    ? upcoming.map(e => calItem(e)).join('')
+    : '<p style="font-size:12px;color:var(--gray);">Nothing in the next 30 days.</p>';
+}
+
+function calItem(e) {
+  const d = new Date(e.date+'T12:00:00');
+  const day = d.getDate();
+  const mon = d.toLocaleString('default',{month:'short'}).toUpperCase();
+  const typeColors = {outreach:'var(--orange)',followup:'var(--pink)',meeting:'var(--blue)',apply:'var(--purple)',other:'var(--gray)'};
+  const col = typeColors[e.type]||'var(--gray)';
+  return `<div class="cal-item">
+    <div class="cal-date" style="background:${col};">
+      <div class="cal-day">${day}</div>
+      <div class="cal-mon">${mon}</div>
+    </div>
+    <div class="cal-info">
+      <h4>${e.title}</h4>
+      ${e.notes?`<p>${e.notes}</p>`:''}
+    </div>
+    <a href="${gcalLink(e)}" target="_blank" class="btn btn-xs btn-blue" title="Add to Google Calendar">📅 GCal</a>
+  </div>`;
+}
+
+function gcalLink(e) {
+  const start = e.date.replace(/-/g,'');
+  const title = encodeURIComponent('[MOSES] '+e.title);
+  const details = encodeURIComponent(e.notes||'');
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${start}&details=${details}`;
+}
+
+function addDays(dateStr, n) {
+  const d = new Date(dateStr+'T12:00:00');
+  d.setDate(d.getDate()+n);
+  return d.toISOString().split('T')[0];
+}
+
+function addEvent() {
+  const title = document.getElementById('ev-title').value.trim();
+  if (!title) { toast('Please enter a title','warning'); return; }
+  events.push({
+    id: Date.now(),
+    title,
+    date: document.getElementById('ev-date').value || today,
+    type: document.getElementById('ev-type').value,
+    notes: document.getElementById('ev-notes').value.trim()
+  });
+  save();
+  closeModal('add-event-modal');
+  toast('Deadline saved ✓','success');
+  renderCalendar();
+}
+
+function addToCalendar(cid) {
+  const c = contacts.find(x => x.id===cid);
+  if (!c) return;
+  const title = `Message ${c.name} — ${c.org} [Zenbill]`;
+  const link = gcalLink({ title, date: c.deadline||today, notes: c.notes });
+  window.open(link,'_blank');
+}
+
+// ═══════════════════════════════════════
+// DISCOVERY
+// ═══════════════════════════════════════
+function openPlatform(platform) {
+  const q = encodeURIComponent(document.getElementById('discovery-search').value || 'medical bill dispute');
+  const urls = {
+    reddit:    `https://www.reddit.com/search/?q=${q}&sort=new`,
+    google:    `https://www.google.com/search?q=${q}+site:reddit.com+OR+site:quora.com+OR+forum`,
+    yelp:      `https://www.yelp.com/search?find_desc=hospital&find_loc=Orange+County%2C+CA`,
+    facebook:  `https://www.facebook.com/search/groups/?q=${encodeURIComponent('medical debt')}`,
+    twitter:   `https://twitter.com/search?q=${encodeURIComponent('#MedicalDebt OR #HospitalBill OR #InsuranceDenial')}&f=live`,
+    quora:     `https://www.quora.com/search?q=${q}`,
+    nextdoor:  `https://nextdoor.com/search/posts/?q=${q}`,
+    bbb:       `https://www.bbb.org/search?find_text=hospital+billing&find_loc=Orange+County%2C+CA`,
+    linkedin:  `https://www.linkedin.com/search/results/groups/?keywords=${q}`,
+    google_reviews: `https://www.google.com/search?q=hospital+billing+complaints+Orange+County+site:google.com/maps`,
+  };
+  window.open(urls[platform] || `https://www.google.com/search?q=${q}`, '_blank');
+  toast(`Opened ${platform} search`);
+}
+
+function runDiscovery() {
+  const q = document.getElementById('discovery-search').value || 'medical bill dispute';
+  const qe = encodeURIComponent(q);
+  const resultsEl = document.getElementById('discovery-results');
+  resultsEl.innerHTML = `
+    <div class="result-item"><div class="result-platform">🤖</div><div><div class="result-title">Reddit — "${q}"</div><div class="result-preview">r/personalfinance · r/medicaldebt · r/legaladvice — real people posting about unexpected bills</div></div><a href="https://www.reddit.com/search/?q=${qe}&sort=new" target="_blank" class="btn btn-xs btn-primary" style="flex-shrink:0;">Open →</a></div>
+    <div class="result-item"><div class="result-platform">🔵</div><div><div class="result-title">Google Forums — "${q}"</div><div class="result-preview">site:reddit.com OR site:quora.com OR forum — public threads about medical billing</div></div><a href="https://www.google.com/search?q=${encodeURIComponent(q+' site:reddit.com OR site:quora.com OR forum')}" target="_blank" class="btn btn-xs btn-blue" style="flex-shrink:0;">Open →</a></div>
+    <div class="result-item"><div class="result-platform">⭐</div><div><div class="result-title">Yelp — Hospital Reviews, Orange County</div><div class="result-preview">1-star reviews about billing at OC hospitals, urgent cares, and specialty clinics</div></div><a href="https://www.yelp.com/search?find_desc=hospital&find_loc=Orange+County+CA" target="_blank" class="btn btn-xs btn-green" style="flex-shrink:0;">Open →</a></div>
+    <div class="result-item"><div class="result-platform">🐦</div><div><div class="result-title">X / Twitter — Live Hashtags</div><div class="result-preview">#MedicalDebt #HospitalBill #InsuranceDenial — real-time complaints you can respond to now</div></div><a href="https://twitter.com/search?q=%23MedicalDebt%20OR%20%23HospitalBill%20OR%20%23InsuranceDenial&f=live" target="_blank" class="btn btn-xs btn-ghost" style="flex-shrink:0;">Open →</a></div>
+    <div class="result-item"><div class="result-platform">👥</div><div><div class="result-title">Facebook Groups — Medical Debt Communities</div><div class="result-preview">Groups: "Medical Debt Relief", "Patient Advocates", "Healthcare Costs Help"</div></div><a href="https://www.facebook.com/search/groups/?q=${encodeURIComponent('medical debt help')}" target="_blank" class="btn btn-xs btn-pink" style="flex-shrink:0;">Open →</a></div>
+    <div class="result-item"><div class="result-platform">🏘</div><div><div class="result-title">Nextdoor — Local Medical Billing Posts</div><div class="result-preview">Neighbors posting about hospital bills in OC/LA — hyper-local warm leads</div></div><a href="https://nextdoor.com/search/posts/?q=${qe}" target="_blank" class="btn btn-xs btn-orange" style="flex-shrink:0;">Open →</a></div>
+    <div class="result-item"><div class="result-platform">⚖️</div><div><div class="result-title">BBB Complaints — Hospital Billing</div><div class="result-preview">Better Business Bureau complaints about hospital billing in Orange County</div></div><a href="https://www.bbb.org/search?find_text=hospital+billing&find_loc=Orange+County+CA" target="_blank" class="btn btn-xs btn-ghost" style="flex-shrink:0;">Open →</a></div>
+    <div class="result-item"><div class="result-platform">💼</div><div><div class="result-title">LinkedIn Groups — Healthcare &amp; Billing</div><div class="result-preview">Groups for HR, benefits managers, and patient advocates who care about medical billing</div></div><a href="https://www.linkedin.com/search/results/groups/?keywords=${encodeURIComponent('medical billing dispute')}" target="_blank" class="btn btn-xs btn-blue" style="flex-shrink:0;">Open →</a></div>
+    <div class="result-item"><div class="result-platform">❓</div><div><div class="result-title">Quora — "${q}"</div><div class="result-preview">People asking how to fight their bills — position Zenbill as the answer</div></div><a href="https://www.quora.com/search?q=${qe}" target="_blank" class="btn btn-xs btn-ghost" style="flex-shrink:0;">Open →</a></div>
+  `;
+  toast('Loaded discovery results');
+}
+
+// ═══════════════════════════════════════
+// TEMPLATES
+// ═══════════════════════════════════════
+function copyTemplate(id) {
+  const templates = {
+    video: `Hey [First Name] — I'm Sarah Wang, founder of Zenbill. We help employees fight back against unfair medical bills — think of us as a personal billing advocate in your pocket.\n\nI'd love 15 minutes to share what we're building and ask if you know anyone — a patient, a small business owner, or an investor — who'd benefit from this. No pitch, just a conversation.\n\nWould you be open to a quick call this week? I'll send over a calendar link. Thank you so much — this means everything.`,
+    'email-peo': `Subject: Zenbill + [Org Name] — a benefits perk that reduces employee financial stress\n\nHi [First Name],\n\nI'm Sarah Wang, founder of Zenbill — we're building the first AI-powered medical bill dispute platform for employees at small and mid-size companies.\n\nHere's the problem we solve: 1 in 3 Americans receives an incorrect medical bill. Most never dispute it. We handle the dispute automatically — employees pay less, HR gets fewer benefit complaints, and PEOs can offer something genuinely differentiated.\n\nI'd love to explore whether Zenbill could be a value-add for [Org Name]'s clients. Would you have 20 minutes this month?\n\nWarm regards,\nSarah Wang\nFounder, Zenbill`,
+    'email-aarp': `Subject: Zenbill — medical bill advocacy for older Americans · AgeTech Accelerator\n\nHi [First Name],\n\nI'm Sarah Wang, founder of Zenbill. We've built an AI tool that automatically disputes unfair medical bills — a problem that hits older adults especially hard (Medicare gaps, complex EOBs, surprise bills).\n\nI'm exploring whether Zenbill would be a fit for the AgeTech Collaborative's next Accelerator cohort. We have [key metric] and are actively piloting with [pilot partner].\n\nCould we schedule a 20-minute intro call to explore fit?\n\nBest,\nSarah Wang | Zenbill`,
+    dm: `Hi [First Name]! I'm Sarah, founder of Zenbill — we help employees fight unfair medical bills automatically. I'm looking to connect with anyone who runs a 40–50 person company or handles HR/benefits. Do you know anyone who might be open to a quick chat? Happy to return the favor any way I can! 🙏`,
+    followup: `Hi [First Name],\n\nJust following up on my note from earlier this week about Zenbill. I wanted to send you something small as a thank-you for even considering my ask — [gift: a Starbucks gift card / a personalized note / a resource about medical billing].\n\nNo pressure at all — but if 20 minutes opens up, I'd genuinely love to hear your thoughts. Even a "not a fit right now" helps me learn.\n\nThank you for your time,\nSarah`,
+    sharing: `Hi [First Name],\n\nThank you so much for agreeing to help — it means the world to me.\n\nOne thing that would be incredibly helpful: if you know anyone else — a founder, HR director, investor, or anyone dealing with medical billing headaches — would you be open to making a warm intro or sharing their contact?\n\nI promise to treat every person you share with the utmost respect and care. And I'll absolutely return the favor.\n\nWith deep gratitude,\nSarah 🙏`,
+  };
+  const t = templates[id];
+  if (t) {
+    navigator.clipboard.writeText(t).then(() => toast('Template copied to clipboard 📋','success'));
+  }
+}
+
+// ═══════════════════════════════════════
+// IMPORT CSV
+// ═══════════════════════════════════════
+function importCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => parseCSV(e.target.result);
+  reader.readAsText(file);
+}
+
+function importCSVPaste() {
+  const csv = document.getElementById('csv-paste').value.trim();
+  if (!csv) { toast('Please paste CSV data','warning'); return; }
+  parseCSV(csv);
+}
+
+function parseCSV(csv) {
+  const lines = csv.split('\n').filter(l => l.trim());
+  const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+  let added = 0;
+  for (let i=1;i<lines.length;i++) {
+    const vals = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g,''));
+    if (!vals[0]) continue;
+    const c = { id:Date.now()+i, name:'', title:'', org:'', cat:'investor', email:'', phone:'', linkedin:'', status:'new', priority:'med', lastContact:null, nextFollowUp:null, deadline:null, notes:'Imported from CSV', outreach:[], gifts:[] };
+    header.forEach((h,j) => {
+      if (h==='name'||h==='full name') c.name = vals[j]||'';
+      else if (h==='title'||h==='role') c.title = vals[j]||'';
+      else if (h==='org'||h==='company'||h==='organization') c.org = vals[j]||'';
+      else if (h==='email') c.email = vals[j]||'';
+      else if (h==='phone') c.phone = vals[j]||'';
+      else if (h==='category'||h==='cat') c.cat = (vals[j]||'investor').toLowerCase();
+      else if (h==='notes') c.notes = vals[j]||'';
+    });
+    if (!c.name) c.name = vals[0];
+    contacts.push(c);
+    added++;
+  }
+  save();
+  closeModal('import-modal');
+  toast(`Imported ${added} contacts ✓`,'success');
+  updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+}
+
+// ═══════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  if (id==='log-outreach-modal'||id==='log-gift-modal') populateContactSelects();
+  if (id==='log-outreach-modal') document.getElementById('lo-date').value = today;
+  if (id==='log-gift-modal') document.getElementById('lg-date').value = today;
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+function toast(msg, type='') {
+  const el = document.createElement('div');
+  el.className = 'toast'+(type?' '+type:'');
+  el.textContent = msg;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+// ═══════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════
+function requestNotifications() {
+  if ('Notification' in window) {
+    Notification.requestPermission().then(p => {
+      if (p==='granted') {
+        toast('Browser notifications enabled 🔔','success');
+        new Notification('Moses · Zenbill', { body: 'You will now receive daily reminders and follow-up alerts.' });
+      } else {
+        toast('Notifications blocked — check browser settings','warning');
+      }
+    });
+  } else {
+    toast('Notifications not supported in this browser','warning');
+  }
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+load();
+updateStats();
+renderDashboard();
+buildDailyQueue();
+renderContacts();
+renderOutreach();
+renderCalendar();
+
+// Auto-refresh stats every minute
+setInterval(() => { updateStats(); }, 60000);
+
+console.log('%cMOSES — Zenbill Outreach Command', 'color:#E8632A;font-size:18px;font-weight:bold;');
+console.log('%cPart the sea. Lead your people to freedom.', 'color:#F5C842;font-size:13px;');
+
+// ═══════════════════════════════════════
+// MACBOOK CONTACTS — load from pre-extracted .abbu data
+// ═══════════════════════════════════════
+function loadMacBookContacts() {
+  const data = window.MACBOOK_CONTACTS;
+  if (!data || !data.length) {
+    toast('MacBook contacts file not found — make sure contacts-macbook.js is in the same folder as index.html', 'error');
+    return;
+  }
+  const btn = document.getElementById('btn-macbook');
+  const statusEl = document.getElementById('macbook-sync-status');
+  if (btn) btn.disabled = true;
+
+  let added = 0, skipped = 0;
+  data.forEach(c => {
+    const isDupe = contacts.some(x =>
+      x.name === c.name ||
+      (c.email && c.email.trim() && x.email === c.email.trim())
+    );
+    if (isDupe) { skipped++; return; }
+    contacts.push({ ...c, id: Date.now() + Math.random() });
+    added++;
+  });
+
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+
+  const msg = `✓ Imported ${added} contacts (${skipped} already in Moses, skipped)`;
+  if (statusEl) statusEl.textContent = msg;
+  if (btn) { btn.textContent = `✓ Done — ${added} imported`; }
+  addSyncLog(`MacBook Contacts (.abbu): imported ${added}, skipped ${skipped} duplicates`);
+  toast(`${added} MacBook contacts imported ✓`, 'success');
+}
+
+function loadSocialContacts() {
+  const data = window.SOCIAL_CONTACTS;
+  if (!data || !data.length) {
+    toast('Social contacts file not found — make sure contacts-social.js is in the same folder as index.html', 'error');
+    return;
+  }
+  const btn = document.getElementById('btn-social');
+  const statusEl = document.getElementById('social-sync-status');
+  if (btn) btn.disabled = true;
+
+  let added = 0, skipped = 0;
+  data.forEach(c => {
+    const isDupe = contacts.some(x =>
+      x.name.toLowerCase().trim() === (c.name || '').toLowerCase().trim() ||
+      (c.email && c.email.trim() && x.email && x.email.trim() &&
+       x.email.toLowerCase().trim() === c.email.toLowerCase().trim())
+    );
+    if (isDupe) { skipped++; return; }
+    contacts.push({ ...c, id: Date.now() + Math.random() });
+    added++;
+  });
+
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+
+  const liCount  = data.filter(c => c.source === 'LinkedIn').length;
+  const fbCount  = data.filter(c => c.source === 'Facebook').length;
+  const igCount  = data.filter(c => c.source === 'Instagram').length;
+  const msg = `✓ Imported ${added} social contacts (${skipped} duplicates skipped) — LinkedIn: ${liCount}, Facebook: ${fbCount}, Instagram: ${igCount}`;
+  if (statusEl) statusEl.textContent = msg;
+  if (btn) { btn.textContent = `✓ Done — ${added} imported`; }
+  addSyncLog(`Social Contacts: imported ${added}, skipped ${skipped} duplicates`);
+  toast(`${added} social contacts imported ✓`, 'success');
+}
+
+// ═══════════════════════════════════════
+// GOOGLE OAUTH + CALENDAR + CONTACTS SYNC
+// ═══════════════════════════════════════
+let googleAccessToken = null;
+let googleTokenClient = null;
+let syncLog = [];
+
+function saveGoogleClientId() {
+  const id = document.getElementById('google-client-id-input').value.trim();
+  if (!id || !id.includes('.apps.googleusercontent.com')) {
+    toast('Please enter a valid Client ID (ends in .apps.googleusercontent.com)', 'warning');
+    return;
+  }
+  localStorage.setItem('google_client_id', id);
+  closeModal('google-setup-modal');
+  toast('Client ID saved — connecting…', 'success');
+  connectGoogle();
+}
+
+function connectGoogle() {
+  const clientId = localStorage.getItem('google_client_id');
+  if (!clientId) {
+    openModal('google-setup-modal');
+    return;
+  }
+  if (!window.google || !window.google.accounts) {
+    toast('Google Identity Services still loading — try again in a moment', 'warning');
+    return;
+  }
+  googleTokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: clientId,
+    scope: [
+      'https://www.googleapis.com/auth/calendar',
+      'https://www.googleapis.com/auth/calendar.events',
+      'https://www.googleapis.com/auth/contacts.readonly',
+      'https://www.googleapis.com/auth/gmail.readonly'
+    ].join(' '),
+    callback: handleGoogleToken
+  });
+  googleTokenClient.requestAccessToken({ prompt: '' });
+}
+
+function handleGoogleToken(resp) {
+  if (resp.error) {
+    toast('Google auth error: ' + resp.error, 'error');
+    return;
+  }
+  googleAccessToken = resp.access_token;
+  localStorage.setItem('google_connected', 'true');
+  updateGoogleUI(true);
+  toast('Google account connected ✓', 'success');
+  addSyncLog('Google account connected');
+}
+
+function updateGoogleUI(connected) {
+  const pill = document.getElementById('google-status-pill');
+  const btn = document.getElementById('google-connect-btn');
+  const label = document.getElementById('google-account-label');
+  if (!pill) return;
+  if (connected) {
+    pill.className = 'sync-status connected';
+    pill.textContent = '🟢 Connected';
+    btn.textContent = '✓ Connected — Reconnect';
+    btn.className = 'btn btn-green';
+    label.textContent = 'Token active for this session';
+  } else {
+    pill.className = 'sync-status disconnected';
+    pill.textContent = '⚫ Not connected';
+    btn.textContent = 'Connect Google Account';
+    btn.className = 'btn btn-blue';
+  }
+}
+
+// ── CALENDAR: PULL FROM GOOGLE ──
+async function syncCalendarIn() {
+  if (!googleAccessToken) { toast('Connect Google first', 'warning'); connectGoogle(); return; }
+  const statusEl = document.getElementById('cal-sync-status');
+  statusEl.textContent = '⏳ Pulling from Google Calendar…';
+  try {
+    const now = new Date().toISOString();
+    const future = new Date(Date.now() + 90*24*60*60*1000).toISOString();
+    const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(now)}&timeMax=${encodeURIComponent(future)}&maxResults=100&orderBy=startTime&singleEvents=true`;
+    const resp = await fetch(url, { headers: { Authorization: `Bearer ${googleAccessToken}` } });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    let imported = 0;
+    (data.items || []).forEach(item => {
+      const gcalId = 'gcal_' + item.id;
+      if (events.some(e => e.id === gcalId)) return; // skip existing
+      const date = item.start?.date || item.start?.dateTime?.split('T')[0];
+      if (!date || date < today) return;
+      events.push({ id: gcalId, title: item.summary || '(no title)', date, type: 'other', notes: item.description || '', gcalId: item.id });
+      imported++;
+    });
+    save();
+    renderCalendar();
+    statusEl.textContent = `✓ Imported ${imported} new events from Google Calendar`;
+    addSyncLog(`Pulled ${imported} events from Google Calendar`);
+    toast(`${imported} calendar events imported ✓`, 'success');
+  } catch(e) {
+    statusEl.textContent = '✗ Error: ' + e.message;
+    toast('Calendar pull failed: ' + e.message, 'error');
+  }
+}
+
+// ── CALENDAR: PUSH ALL MOSES EVENTS TO GOOGLE ──
+async function pushAllEventsToGCal() {
+  if (!googleAccessToken) { toast('Connect Google first', 'warning'); connectGoogle(); return; }
+  const statusEl = document.getElementById('cal-sync-status');
+  const toPush = events.filter(e => !e.gcalId && e.date >= today);
+  if (!toPush.length) { statusEl.textContent = 'No new events to push (all already synced)'; return; }
+  statusEl.textContent = `⏳ Pushing ${toPush.length} events to Google Calendar…`;
+  let pushed = 0;
+  for (const ev of toPush) {
+    try {
+      const body = {
+        summary: '[Moses · Zenbill] ' + ev.title,
+        description: ev.notes || '',
+        start: { date: ev.date },
+        end: { date: ev.date },
+        reminders: { useDefault: false, overrides: [{ method: 'popup', minutes: 1440 }, { method: 'email', minutes: 1440 }] }
+      };
+      const resp = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${googleAccessToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (resp.ok) { const d = await resp.json(); ev.gcalId = d.id; pushed++; }
+    } catch(_) {}
+  }
+  save(); renderCalendar();
+  statusEl.textContent = `✓ Pushed ${pushed} events to Google Calendar`;
+  addSyncLog(`Pushed ${pushed} deadlines to Google Calendar`);
+  toast(`${pushed} deadlines pushed ✓`, 'success');
+}
+
+// ── GOOGLE CONTACTS ──
+async function syncGoogleContacts() {
+  if (!googleAccessToken) { toast('Connect Google first', 'warning'); connectGoogle(); return; }
+  const statusEl = document.getElementById('gcontacts-sync-status');
+  statusEl.textContent = '⏳ Fetching Google Contacts…';
+  try {
+    const url = 'https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,organizations&pageSize=1000';
+    const resp = await fetch(url, { headers: { Authorization: `Bearer ${googleAccessToken}` } });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status} — make sure People API is enabled`);
+    const data = await resp.json();
+    let added = 0;
+    (data.connections || []).forEach(person => {
+      const name = person.names?.[0]?.displayName;
+      if (!name) return;
+      const email = person.emailAddresses?.[0]?.value || '';
+      const phone = person.phoneNumbers?.[0]?.value || '';
+      const org = person.organizations?.[0]?.name || '';
+      const title = person.organizations?.[0]?.title || '';
+      if (contacts.some(c => c.name === name || (email && c.email === email))) return;
+      contacts.push({ id: Date.now()+Math.random(), name, title, org, email, phone, cat:'investor', status:'new', priority:'med', lastContact:null, nextFollowUp:null, deadline:null, notes:'Imported from Google Contacts', outreach:[], gifts:[], linkedin:'' });
+      added++;
+    });
+    save(); updateStats();
+    if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+    statusEl.textContent = `✓ Imported ${added} new contacts from Google`;
+    addSyncLog(`Imported ${added} Google Contacts`);
+    toast(`${added} Google Contacts imported ✓`, 'success');
+  } catch(e) {
+    statusEl.textContent = '✗ Error: ' + e.message;
+    toast('Contacts sync failed: ' + e.message, 'error');
+  }
+}
+
+// ═══════════════════════════════════════
+// PHONE CONTACTS — Contact Picker API
+// ═══════════════════════════════════════
+async function pickPhoneContacts() {
+  if (!('contacts' in navigator) || !('ContactsManager' in window)) {
+    toast('Contact Picker not available on this browser — open Moses on your phone, or use vCard import', 'warning');
+    setTimeout(() => openModal('vcf-modal'), 400);
+    return;
+  }
+  try {
+    const supported = await navigator.contacts.getProperties();
+    const props = ['name','email','tel'];
+    if (supported.includes('organization')) props.push('organization');
+    const picked = await navigator.contacts.select(props, { multiple: true });
+    if (!picked.length) { toast('No contacts selected', 'warning'); return; }
+    let added = 0;
+    picked.forEach(p => {
+      const name = p.name?.[0] || '';
+      if (!name) return;
+      const email = p.email?.[0] || '';
+      const phone = p.tel?.[0] || '';
+      const org = p.organization?.[0] || '';
+      if (contacts.some(c => c.name === name || (email && c.email === email))) return;
+      contacts.push({ id: Date.now()+Math.random(), name, title:'', org, email, phone, cat:'investor', status:'new', priority:'med', lastContact:null, nextFollowUp:null, deadline:null, notes:'Imported from phone contacts', outreach:[], gifts:[], linkedin:'' });
+      added++;
+    });
+    save(); updateStats();
+    if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+    const statusEl = document.getElementById('phone-sync-status');
+    if (statusEl) statusEl.textContent = `✓ Imported ${added} phone contacts`;
+    addSyncLog(`Imported ${added} phone contacts via Contact Picker`);
+    toast(`${added} phone contacts imported ✓`, 'success');
+  } catch(e) {
+    toast('Contact picker error: ' + e.message, 'error');
+  }
+}
+
+// ═══════════════════════════════════════
+// VCARD IMPORT
+// ═══════════════════════════════════════
+function importVcfFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => processVcf(e.target.result);
+  reader.readAsText(file);
+}
+
+function handleVcfDrop(event) {
+  event.preventDefault();
+  document.getElementById('vcf-drop-zone').style.background = 'var(--orange-pale)';
+  const file = event.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => processVcf(e.target.result);
+  reader.readAsText(file);
+}
+
+function processVcf(text) {
+  const added = parseVCard(text);
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+  const result = document.getElementById('vcf-result');
+  if (result) result.textContent = `✓ Imported ${added} contacts from vCard file`;
+  addSyncLog(`Imported ${added} contacts via vCard`);
+  toast(`${added} vCard contacts imported ✓`, 'success');
+}
+
+function parseVCard(text) {
+  // Split on BEGIN:VCARD — handles both single and bulk files
+  const rawCards = text.split(/BEGIN:VCARD/gi).slice(1);
+  let added = 0;
+  rawCards.forEach(card => {
+    const lines = card.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    let name = '', email = '', phone = '', org = '', title = '';
+    lines.forEach(line => {
+      // Handle folded lines (vCard lines starting with space are continuations — ignore for simplicity)
+      const colonIdx = line.indexOf(':');
+      if (colonIdx < 0) return;
+      const keyPart = line.substring(0, colonIdx).toUpperCase().split(';')[0];
+      const val = line.substring(colonIdx + 1).trim();
+      if (keyPart === 'FN') name = val;
+      else if (keyPart === 'N' && !name) {
+        // N:Last;First;Middle;Prefix;Suffix
+        const parts = val.split(';');
+        name = [parts[1], parts[0]].filter(Boolean).join(' ');
+      }
+      else if (keyPart === 'EMAIL' || keyPart.startsWith('EMAIL')) email = email || val;
+      else if (keyPart === 'TEL' || keyPart.startsWith('TEL')) phone = phone || val;
+      else if (keyPart === 'ORG') org = val.replace(/;+/g,' ').trim();
+      else if (keyPart === 'TITLE') title = val;
+    });
+    if (!name) return;
+    // Deduplicate
+    if (contacts.some(c => c.name === name || (email && c.email === email && email))) return;
+    contacts.push({ id: Date.now()+Math.random(), name, title, org, email, phone, cat:'investor', status:'new', priority:'med', lastContact:null, nextFollowUp:null, deadline:null, notes:'Imported from vCard', outreach:[], gifts:[], linkedin:'' });
+    added++;
+  });
+  return added;
+}
+
+// ═══════════════════════════════════════
+// SYNC LOG
+// ═══════════════════════════════════════
+function addSyncLog(msg) {
+  const now = new Date().toLocaleString();
+  syncLog.unshift({ msg, time: now });
+  renderSyncLog();
+}
+
+function renderSyncLog() {
+  const el = document.getElementById('sync-log');
+  if (!el) return;
+  if (!syncLog.length) { el.innerHTML = '<p style="font-size:12px;color:var(--gray);">No syncs yet.</p>'; return; }
+  el.innerHTML = syncLog.slice(0,20).map(entry => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:13px;font-weight:600;">✓ ${entry.msg}</span>
+      <span style="font-size:11px;color:var(--gray);">${entry.time}</span>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// LINKEDIN CSV IMPORT
+// LinkedIn export format:
+// First Name,Last Name,Email Address,Company,Position,Connected On
+// ═══════════════════════════════════════
+function importLinkedInFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => processLinkedIn(e.target.result);
+  reader.readAsText(file);
+}
+
+function handleLinkedInDrop(event) {
+  event.preventDefault();
+  document.getElementById('linkedin-drop-zone').style.background = 'var(--orange-pale)';
+  const file = event.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => processLinkedIn(e.target.result);
+  reader.readAsText(file);
+}
+
+function processLinkedIn(csvText) {
+  // LinkedIn adds a few header lines before the actual CSV — skip them
+  const lines = csvText.split(/\r?\n/).filter(l => l.trim());
+
+  // Find the header row (contains "First Name" or "FirstName")
+  let headerIdx = -1;
+  for (let i = 0; i < Math.min(lines.length, 8); i++) {
+    const l = lines[i].toLowerCase();
+    if (l.includes('first name') || l.includes('firstname')) { headerIdx = i; break; }
+  }
+  if (headerIdx < 0) {
+    toast('Could not find LinkedIn CSV headers — make sure this is Connections.csv', 'error');
+    return;
+  }
+
+  const headers = parseCSVLine(lines[headerIdx]).map(h => h.trim().toLowerCase().replace(/\s+/g,''));
+  const iFirst    = headers.findIndex(h => h.includes('firstname') || h === 'first');
+  const iLast     = headers.findIndex(h => h.includes('lastname')  || h === 'last');
+  const iEmail    = headers.findIndex(h => h.includes('email'));
+  const iCompany  = headers.findIndex(h => h.includes('company'));
+  const iPosition = headers.findIndex(h => h.includes('position') || h.includes('title'));
+
+  let added = 0;
+  for (let i = headerIdx + 1; i < lines.length; i++) {
+    const vals = parseCSVLine(lines[i]);
+    if (vals.length < 2) continue;
+    const firstName = iFirst  >= 0 ? (vals[iFirst]  || '').trim() : '';
+    const lastName  = iLast   >= 0 ? (vals[iLast]   || '').trim() : '';
+    const name = [firstName, lastName].filter(Boolean).join(' ');
+    if (!name) continue;
+    const email = iEmail    >= 0 ? (vals[iEmail]    || '').trim() : '';
+    const org   = iCompany  >= 0 ? (vals[iCompany]  || '').trim() : '';
+    const title = iPosition >= 0 ? (vals[iPosition] || '').trim() : '';
+
+    // Deduplicate
+    if (contacts.some(c => c.name === name || (email && c.email === email))) continue;
+
+    contacts.push({
+      id: Date.now() + Math.random(),
+      name, title, org, email, phone: '',
+      cat: 'investor', status: 'new', priority: 'med',
+      lastContact: null, nextFollowUp: null, deadline: null,
+      notes: 'Imported from LinkedIn',
+      outreach: [], gifts: [],
+      linkedin: `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(name)}`
+    });
+    added++;
+  }
+
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+
+  const statusEl = document.getElementById('linkedin-sync-status');
+  if (statusEl) statusEl.textContent = `✓ Imported ${added} LinkedIn connections`;
+  const resultEl = document.getElementById('linkedin-result');
+  if (resultEl) resultEl.textContent = `✓ Imported ${added} new contacts from LinkedIn`;
+  addSyncLog(`Imported ${added} LinkedIn connections`);
+  toast(`${added} LinkedIn contacts imported ✓`, 'success');
+}
+
+// RFC 4180 CSV line parser — handles quoted fields with commas inside
+function parseCSVLine(line) {
+  const result = [];
+  let cur = '';
+  let inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuote && line[i+1] === '"') { cur += '"'; i++; } // escaped quote
+      else inQuote = !inQuote;
+    } else if (ch === ',' && !inQuote) {
+      result.push(cur); cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  result.push(cur);
+  return result;
+}
+
+// ═══════════════════════════════════════
+// INSTAGRAM JSON / USERNAME IMPORT
+// Handles both followers_1.json (array) and following.json ({relationships_following: [...]})
+// ═══════════════════════════════════════
+function igTab(tab) {
+  document.getElementById('ig-pane-file').style.display  = tab === 'file'  ? '' : 'none';
+  document.getElementById('ig-pane-paste').style.display = tab === 'paste' ? '' : 'none';
+  document.getElementById('ig-tab-file').className  = tab === 'file'  ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-ghost';
+  document.getElementById('ig-tab-paste').className = tab === 'paste' ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-ghost';
+}
+
+function importInstagramFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => processInstagramData(e.target.result, file.name);
+  reader.readAsText(file);
+}
+
+function handleInstagramDrop(event) {
+  event.preventDefault();
+  document.getElementById('instagram-drop-zone').style.background = 'var(--orange-pale)';
+  const file = event.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => processInstagramData(e.target.result, file.name);
+  reader.readAsText(file);
+}
+
+function processInstagramData(text, filename) {
+  let entries = [];
+
+  if (filename.endsWith('.json')) {
+    try {
+      const parsed = JSON.parse(text);
+      // followers_1.json — top-level array
+      if (Array.isArray(parsed)) {
+        entries = parsed;
+      }
+      // following.json — {relationships_following: [...]}
+      else if (parsed.relationships_following && Array.isArray(parsed.relationships_following)) {
+        entries = parsed.relationships_following;
+      }
+      // other possible key names
+      else {
+        const key = Object.keys(parsed).find(k => Array.isArray(parsed[k]));
+        if (key) entries = parsed[key];
+      }
+    } catch(e) {
+      toast('Could not parse JSON — make sure you selected the correct file', 'error');
+      return;
+    }
+  } else if (filename.endsWith('.html') || filename.endsWith('.htm')) {
+    // HTML format: extract hrefs pointing to instagram.com profiles
+    const matches = [...text.matchAll(/href="https?:\/\/www\.instagram\.com\/([^/"]+)\/?"/gi)];
+    matches.forEach(m => {
+      entries.push({ string_list_data: [{ value: m[1], href: `https://www.instagram.com/${m[1]}/` }] });
+    });
+  }
+
+  if (!entries.length) {
+    toast('No Instagram entries found in this file', 'warning');
+    return;
+  }
+
+  let added = 0;
+  entries.forEach(entry => {
+    // Each entry has string_list_data array
+    const items = entry.string_list_data || [];
+    items.forEach(item => {
+      const username = (item.value || '').trim().replace(/^@/, '');
+      const href = item.href || `https://www.instagram.com/${username}/`;
+      if (!username) return;
+
+      const name = '@' + username;
+      if (contacts.some(c => c.name === name)) return; // skip existing
+
+      contacts.push({
+        id: Date.now() + Math.random(),
+        name,
+        title: 'Instagram',
+        org: '',
+        email: '',
+        phone: '',
+        cat: 'customer',
+        status: 'new',
+        priority: 'low',
+        lastContact: null,
+        nextFollowUp: null,
+        deadline: null,
+        notes: `Instagram profile: ${href}`,
+        outreach: [],
+        gifts: [],
+        linkedin: '',
+        instagram: href
+      });
+      added++;
+    });
+  });
+
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+
+  const statusEl = document.getElementById('instagram-sync-status');
+  if (statusEl) statusEl.textContent = `✓ Imported ${added} Instagram contacts from ${filename}`;
+  const resultEl = document.getElementById('instagram-result');
+  if (resultEl) resultEl.textContent = `✓ Imported ${added} Instagram profiles`;
+  addSyncLog(`Imported ${added} Instagram profiles from ${filename}`);
+  toast(`${added} Instagram contacts imported ✓`, 'success');
+}
+
+function importInstagramUsernames() {
+  const raw = (document.getElementById('ig-username-paste').value || '').trim();
+  if (!raw) { toast('Please paste some usernames', 'warning'); return; }
+  const usernames = raw.split(/\r?\n/).map(u => u.trim().replace(/^@/, '')).filter(Boolean);
+  let added = 0;
+  usernames.forEach(username => {
+    const name = '@' + username;
+    if (contacts.some(c => c.name === name)) return;
+    contacts.push({
+      id: Date.now() + Math.random(),
+      name, title: 'Instagram', org: '', email: '', phone: '',
+      cat: 'customer', status: 'new', priority: 'low',
+      lastContact: null, nextFollowUp: null, deadline: null,
+      notes: `Instagram: https://www.instagram.com/${username}/`,
+      outreach: [], gifts: [], linkedin: '',
+      instagram: `https://www.instagram.com/${username}/`
+    });
+    added++;
+  });
+  document.getElementById('ig-username-paste').value = '';
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+  const resultEl = document.getElementById('instagram-result');
+  if (resultEl) resultEl.textContent = `✓ Added ${added} Instagram profiles`;
+  addSyncLog(`Added ${added} Instagram profiles via username paste`);
+  toast(`${added} Instagram contacts added ✓`, 'success');
+}
+
+// ═══════════════════════════════════════
+// FACEBOOK JSON / NAME IMPORT
+// Facebook export format (friends_and_followers/friends.json):
+// { "friends_v2": [ { "timestamp": 123456, "title": "John Doe" }, ... ] }
+// Also handles following_v2, followers_v2 keys and HTML fallback
+// ═══════════════════════════════════════
+function fbTab(tab) {
+  document.getElementById('fb-pane-file').style.display  = tab === 'file'  ? '' : 'none';
+  document.getElementById('fb-pane-paste').style.display = tab === 'paste' ? '' : 'none';
+  document.getElementById('fb-tab-file').className  = tab === 'file'  ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-ghost';
+  document.getElementById('fb-tab-paste').className = tab === 'paste' ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-ghost';
+}
+
+function importFacebookFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => processFacebookData(e.target.result, file.name);
+  reader.readAsText(file);
+}
+
+function handleFacebookDrop(event) {
+  event.preventDefault();
+  document.getElementById('facebook-drop-zone').style.background = 'var(--orange-pale)';
+  const file = event.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => processFacebookData(e.target.result, file.name);
+  reader.readAsText(file);
+}
+
+function processFacebookData(text, filename) {
+  let names = [];
+
+  if (filename.endsWith('.json')) {
+    let parsed;
+    try { parsed = JSON.parse(text); } catch(e) {
+      toast('Could not parse JSON — make sure you selected friends.json', 'error');
+      return;
+    }
+    // Try every known Facebook export key
+    const listKeys = ['friends_v2', 'following_v2', 'followers_v2',
+                      'friends',    'following',    'followers'];
+    let entries = [];
+    for (const key of listKeys) {
+      if (Array.isArray(parsed[key])) { entries = parsed[key]; break; }
+    }
+    // Some exports wrap the array in a data object
+    if (!entries.length && parsed.data && Array.isArray(parsed.data)) {
+      entries = parsed.data;
+    }
+    if (!entries.length) {
+      toast('No friends list found in this file — try friends_and_followers/friends.json', 'warning');
+      return;
+    }
+    // Each entry has a "title" field with the friend's name
+    entries.forEach(entry => {
+      const name = (entry.title || entry.name || '').trim();
+      if (name) names.push(name);
+    });
+  } else if (filename.endsWith('.html') || filename.endsWith('.htm')) {
+    // HTML format: names appear as text inside <div> or <td> elements — extract unique non-empty text nodes
+    const matches = [...text.matchAll(/<(?:div|td|span|li)[^>]*>\s*([A-Z][a-zA-ZÀ-ÿ'\- ]{1,50})\s*<\/(?:div|td|span|li)>/g)];
+    matches.forEach(m => { const n = m[1].trim(); if (n) names.push(n); });
+  }
+
+  if (!names.length) {
+    toast('No names found in this file', 'warning');
+    return;
+  }
+
+  let added = 0;
+  names.forEach(name => {
+    if (contacts.some(c => c.name === name)) return; // skip duplicates
+    contacts.push({
+      id: Date.now() + Math.random(),
+      name, title: '', org: '', email: '', phone: '',
+      cat: 'customer', status: 'new', priority: 'low',
+      lastContact: null, nextFollowUp: null, deadline: null,
+      notes: 'Imported from Facebook friends list',
+      outreach: [], gifts: [], linkedin: '', instagram: '',
+      facebook: `https://www.facebook.com/search/people/?q=${encodeURIComponent(name)}`
+    });
+    added++;
+  });
+
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+
+  const statusEl = document.getElementById('facebook-sync-status');
+  if (statusEl) statusEl.textContent = `✓ Imported ${added} Facebook friends from ${filename}`;
+  const resultEl = document.getElementById('facebook-result');
+  if (resultEl) resultEl.textContent = `✓ Imported ${added} new contacts from Facebook`;
+  addSyncLog(`Imported ${added} Facebook friends from ${filename}`);
+  toast(`${added} Facebook contacts imported ✓`, 'success');
+}
+
+function importFacebookNames() {
+  const raw = (document.getElementById('fb-name-paste').value || '').trim();
+  if (!raw) { toast('Please paste some names', 'warning'); return; }
+  const names = raw.split(/\r?\n/).map(n => n.trim()).filter(Boolean);
+  let added = 0;
+  names.forEach(name => {
+    if (contacts.some(c => c.name === name)) return;
+    contacts.push({
+      id: Date.now() + Math.random(),
+      name, title: '', org: '', email: '', phone: '',
+      cat: 'customer', status: 'new', priority: 'low',
+      lastContact: null, nextFollowUp: null, deadline: null,
+      notes: 'Added from Facebook',
+      outreach: [], gifts: [], linkedin: '', instagram: '',
+      facebook: `https://www.facebook.com/search/people/?q=${encodeURIComponent(name)}`
+    });
+    added++;
+  });
+  document.getElementById('fb-name-paste').value = '';
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+  const resultEl = document.getElementById('facebook-result');
+  if (resultEl) resultEl.textContent = `✓ Added ${added} Facebook contacts`;
+  addSyncLog(`Added ${added} Facebook friends via name paste`);
+  toast(`${added} Facebook contacts added ✓`, 'success');
+}
+
+// ═══════════════════════════════════════
+// GMAIL SENT MAIL SCANNER
+// Reads last 100 sent emails, extracts unique To/CC addresses
+// ═══════════════════════════════════════
+async function scanGmailSent() {
+  if (!googleAccessToken) { toast('Connect Google first — Gmail scan needs the Google connection', 'warning'); connectGoogle(); return; }
+  const statusEl = document.getElementById('email-sync-status');
+  const btn = document.getElementById('btn-gmail-scan');
+  if (btn) { btn.textContent = '⏳ Scanning…'; btn.disabled = true; }
+  if (statusEl) statusEl.textContent = '⏳ Fetching sent mail…';
+
+  try {
+    // Step 1 — get sent message IDs (up to 100)
+    const listResp = await fetch(
+      'https://gmail.googleapis.com/gmail/v1/users/me/messages?q=in:sent&maxResults=100&fields=messages/id,nextPageToken',
+      { headers: { Authorization: `Bearer ${googleAccessToken}` } }
+    );
+    if (!listResp.ok) throw new Error(`HTTP ${listResp.status} — make sure Gmail API is enabled in Google Cloud`);
+    const listData = await listResp.json();
+    const msgIds = (listData.messages || []).map(m => m.id);
+    if (!msgIds.length) { if (statusEl) statusEl.textContent = 'No sent messages found'; return; }
+    if (statusEl) statusEl.textContent = `⏳ Reading headers from ${msgIds.length} messages…`;
+
+    // Step 2 — fetch headers for all messages in parallel (metadata only = fast)
+    const headerFetches = msgIds.map(id =>
+      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${id}?format=metadata&metadataHeaders=To&metadataHeaders=Cc&fields=payload/headers`, {
+        headers: { Authorization: `Bearer ${googleAccessToken}` }
+      }).then(r => r.ok ? r.json() : null).catch(() => null)
+    );
+    const messages = await Promise.all(headerFetches);
+
+    // Step 3 — parse unique email addresses from To and Cc headers
+    const emailNameMap = new Map(); // lowercase email → display name
+    messages.filter(Boolean).forEach(msg => {
+      (msg.payload?.headers || []).forEach(h => {
+        if (h.name === 'To' || h.name === 'Cc') {
+          parseEmailAddresses(h.value).forEach(({ email, name }) => {
+            const em = email.toLowerCase();
+            // Skip common no-reply addresses
+            if (/noreply|no-reply|donotreply|notifications?@|mailer@|bounce@/i.test(em)) return;
+            if (!emailNameMap.has(em)) emailNameMap.set(em, name || '');
+          });
+        }
+      });
+    });
+
+    // Step 4 — add new contacts
+    let added = 0;
+    emailNameMap.forEach((displayName, email) => {
+      if (contacts.some(c => c.email === email)) return;
+      const domain = email.split('@')[1] || '';
+      const nameFromEmail = email.split('@')[0].replace(/[._+]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()).trim();
+      const name = displayName || nameFromEmail;
+      contacts.push({
+        id: Date.now() + Math.random(),
+        name, title: '', org: domain, email, phone: '',
+        cat: 'investor', status: 'new', priority: 'low',
+        lastContact: null, nextFollowUp: null, deadline: null,
+        notes: 'Found in Gmail sent mail',
+        outreach: [], gifts: [], linkedin: '', instagram: '', facebook: ''
+      });
+      added++;
+    });
+
+    save(); updateStats();
+    if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+    if (statusEl) statusEl.textContent = `✓ Found ${emailNameMap.size} unique emails · imported ${added} new contacts`;
+    addSyncLog(`Gmail sent mail scan: imported ${added} new contacts from ${msgIds.length} messages`);
+    toast(`${added} email contacts imported from Gmail ✓`, 'success');
+  } catch(e) {
+    if (statusEl) statusEl.textContent = '✗ Error: ' + e.message;
+    toast('Gmail scan error: ' + e.message, 'error');
+  } finally {
+    if (btn) { btn.textContent = '📧 Scan Gmail Sent'; btn.disabled = false; }
+  }
+}
+
+// Parse "Name" <email> or plain email@domain from a header string
+function parseEmailAddresses(headerVal) {
+  const results = [];
+  // Match: optional "Name" then <email@domain>, or bare email@domain
+  const re = /(?:"?([^"<,;\n]+?)"?\s*<([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,})>|([a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}))/g;
+  let m;
+  while ((m = re.exec(headerVal)) !== null) {
+    if (m[2]) results.push({ name: (m[1] || '').trim().replace(/^"|"$/g, ''), email: m[2].trim() });
+    else if (m[3]) results.push({ name: '', email: m[3].trim() });
+  }
+  return results;
+}
+
+// ═══════════════════════════════════════
+// EMAIL FILE IMPORT — auto-detects format
+// Handles: Outlook CSV, Yahoo CSV, Thunderbird LDIF, generic CSV
+// ═══════════════════════════════════════
+function emTab(tab) {
+  document.getElementById('em-pane-file').style.display  = tab === 'file'  ? '' : 'none';
+  document.getElementById('em-pane-paste').style.display = tab === 'paste' ? '' : 'none';
+  document.getElementById('em-tab-file').className  = tab === 'file'  ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-ghost';
+  document.getElementById('em-tab-paste').className = tab === 'paste' ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-ghost';
+}
+
+function importEmailFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => detectAndParseEmailExport(e.target.result, file.name);
+  reader.readAsText(file);
+}
+
+function handleEmailFileDrop(event) {
+  event.preventDefault();
+  document.getElementById('email-drop-zone').style.background = 'var(--orange-pale)';
+  const file = event.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => detectAndParseEmailExport(e.target.result, file.name);
+  reader.readAsText(file);
+}
+
+function detectAndParseEmailExport(text, filename) {
+  const ext = filename.split('.').pop().toLowerCase();
+  let added = 0;
+
+  if (ext === 'ldif') {
+    added = parseLDIF(text);
+  } else if (ext === 'vcf' || ext === 'vcard') {
+    added = parseVCard(text); // already defined
+  } else if (ext === 'csv' || ext === 'txt') {
+    added = parseEmailCSV(text);
+  } else {
+    // Try to auto-detect by content
+    if (text.trim().startsWith('dn:') || text.includes('\nmail:')) {
+      added = parseLDIF(text);
+    } else if (text.trim().startsWith('BEGIN:VCARD')) {
+      added = parseVCard(text);
+    } else {
+      added = parseEmailCSV(text);
+    }
+  }
+
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+  const statusEl = document.getElementById('email-sync-status');
+  if (statusEl) statusEl.textContent = `✓ Imported ${added} contacts from ${filename}`;
+  const resultEl = document.getElementById('email-import-result');
+  if (resultEl) resultEl.textContent = `✓ Imported ${added} new contacts`;
+  addSyncLog(`Imported ${added} email contacts from ${filename}`);
+  toast(`${added} email contacts imported ✓`, 'success');
+}
+
+// ── THUNDERBIRD LDIF PARSER ──
+// Format: attribute: value pairs, entries separated by blank lines
+function parseLDIF(text) {
+  const entries = text.split(/\n\s*\n/).filter(e => e.trim());
+  let added = 0;
+  entries.forEach(entry => {
+    const lines = entry.split(/\r?\n/).filter(Boolean);
+    let cn = '', givenname = '', sn = '', mail = '', o = '', title = '', tel = '';
+    lines.forEach(line => {
+      const sep = line.indexOf(':');
+      if (sep < 0) return;
+      const key = line.substring(0, sep).toLowerCase().trim();
+      const val = line.substring(sep + 1).trim();
+      if (key === 'cn')              cn        = val;
+      else if (key === 'givenname')  givenname = val;
+      else if (key === 'sn')         sn        = val;
+      else if (key === 'mail')       mail      = mail || val;
+      else if (key === 'o')          o         = val;
+      else if (key === 'title' || key === 'jobtitle') title = val;
+      else if (key === 'telephonenumber' || key === 'mobile' || key === 'homephone') tel = tel || val;
+    });
+    const name = cn || [givenname, sn].filter(Boolean).join(' ');
+    if (!name && !mail) return;
+    const finalName = name || mail.split('@')[0];
+    if (contacts.some(c => c.name === finalName || (mail && c.email === mail))) return;
+    contacts.push({
+      id: Date.now() + Math.random(),
+      name: finalName, title, org: o, email: mail, phone: tel,
+      cat: 'investor', status: 'new', priority: 'med',
+      lastContact: null, nextFollowUp: null, deadline: null,
+      notes: 'Imported from Thunderbird LDIF',
+      outreach: [], gifts: [], linkedin: '', instagram: '', facebook: ''
+    });
+    added++;
+  });
+  return added;
+}
+
+// ── UNIVERSAL EMAIL CSV PARSER ──
+// Auto-detects Outlook, Yahoo, and generic CSV formats
+function parseEmailCSV(csvText) {
+  const lines = csvText.split(/\r?\n/).filter(l => l.trim());
+  if (lines.length < 2) return 0;
+
+  const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase().replace(/[\s\-]/g, ''));
+
+  // Map column names for Outlook, Yahoo, and generic formats
+  const col = (candidates) => {
+    for (const c of candidates) {
+      const idx = headers.findIndex(h => h === c || h.includes(c));
+      if (idx >= 0) return idx;
+    }
+    return -1;
+  };
+
+  const iFirst  = col(['firstname','first']);
+  const iLast   = col(['lastname','last']);
+  const iName   = col(['name','displayname','fullname','contactname']);
+  const iEmail  = col(['emailaddress','email','email1address','primaryemail','e-mailaddress','mail']);
+  const iEmail2 = col(['email2address','secondemail','email2']);
+  const iPhone  = col(['businessphone','mobilephone','homephone','phone','tel','telephone']);
+  const iOrg    = col(['company','organization','businessname','work/company']);
+  const iTitle  = col(['jobtitle','title','position']);
+
+  if (iEmail < 0 && iName < 0 && iFirst < 0) {
+    toast('Could not find name or email columns in this CSV', 'error');
+    return 0;
+  }
+
+  let added = 0;
+  for (let i = 1; i < lines.length; i++) {
+    const vals = parseCSVLine(lines[i]);
+    const email  = iEmail  >= 0 ? (vals[iEmail]  || '').trim() : '';
+    const email2 = iEmail2 >= 0 ? (vals[iEmail2] || '').trim() : '';
+    const firstName = iFirst >= 0 ? (vals[iFirst] || '').trim() : '';
+    const lastName  = iLast  >= 0 ? (vals[iLast]  || '').trim() : '';
+    const rawName   = iName  >= 0 ? (vals[iName]  || '').trim() : '';
+    const name  = rawName || [firstName, lastName].filter(Boolean).join(' ') || (email ? email.split('@')[0] : '');
+    const org   = iOrg   >= 0 ? (vals[iOrg]   || '').trim() : '';
+    const title = iTitle >= 0 ? (vals[iTitle] || '').trim() : '';
+    const phone = iPhone >= 0 ? (vals[iPhone] || '').trim() : '';
+
+    if (!name) continue;
+
+    // Add primary email contact
+    for (const em of [email, email2].filter(Boolean)) {
+      if (contacts.some(c => c.name === name || (em && c.email === em))) continue;
+      contacts.push({
+        id: Date.now() + Math.random(),
+        name, title, org, email: em, phone,
+        cat: 'investor', status: 'new', priority: 'med',
+        lastContact: null, nextFollowUp: null, deadline: null,
+        notes: 'Imported from email contacts export',
+        outreach: [], gifts: [], linkedin: '', instagram: '', facebook: ''
+      });
+      added++;
+      break; // only add once per person even if they have two emails
+    }
+
+    // If no email at all but have a name, still add
+    if (!email && !email2 && name && !contacts.some(c => c.name === name)) {
+      contacts.push({
+        id: Date.now() + Math.random(),
+        name, title, org, email: '', phone,
+        cat: 'investor', status: 'new', priority: 'low',
+        lastContact: null, nextFollowUp: null, deadline: null,
+        notes: 'Imported from email contacts export (no email found)',
+        outreach: [], gifts: [], linkedin: '', instagram: '', facebook: ''
+      });
+      added++;
+    }
+  }
+  return added;
+}
+
+// ── PASTE EMAIL LIST ──
+function importEmailAddressList() {
+  const raw = (document.getElementById('em-email-paste').value || '').trim();
+  if (!raw) { toast('Please paste some email addresses', 'warning'); return; }
+  // Split on newlines, commas, or semicolons
+  const rawEmails = raw.split(/[\n,;]+/).map(e => e.trim()).filter(Boolean);
+  // Extract just the email address part in case they pasted "Name <email>" format
+  let added = 0;
+  rawEmails.forEach(raw => {
+    const matches = parseEmailAddresses(raw);
+    const { email, name } = matches.length ? matches[0] : { email: /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/.exec(raw)?.[0] || '', name: '' };
+    if (!email) return;
+    const em = email.toLowerCase();
+    if (contacts.some(c => c.email === em)) return;
+    const domain = em.split('@')[1] || '';
+    const nameFromEmail = em.split('@')[0].replace(/[._+]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    contacts.push({
+      id: Date.now() + Math.random(),
+      name: name || nameFromEmail, title: '', org: domain, email: em, phone: '',
+      cat: 'investor', status: 'new', priority: 'low',
+      lastContact: null, nextFollowUp: null, deadline: null,
+      notes: 'Added from email address list',
+      outreach: [], gifts: [], linkedin: '', instagram: '', facebook: ''
+    });
+    added++;
+  });
+  document.getElementById('em-email-paste').value = '';
+  save(); updateStats();
+  if (document.getElementById('tab-contacts').classList.contains('active')) renderContacts();
+  const resultEl = document.getElementById('email-import-result');
+  if (resultEl) resultEl.textContent = `✓ Added ${added} email contacts`;
+  addSyncLog(`Added ${added} contacts via email address paste`);
+  toast(`${added} email contacts added ✓`, 'success');
+}
+
+// Update the section subtitle now that we have more sources
+document.addEventListener('DOMContentLoaded', () => {
+  const sub = document.querySelector('#tab-sync .section-sub');
+  if (sub) sub.textContent = 'Connect Google Calendar, Google Contacts, LinkedIn, Instagram, and phone contacts';
+});
+
+// Extend showTab to handle sync tab
+const _origShowTab = showTab;
+showTab = function(name) {
+  _origShowTab(name);
+  if (name === 'sync') {
+    updateGoogleUI(!!googleAccessToken);
+    renderSyncLog();
+    // Pre-fill saved client ID
+    const saved = localStorage.getItem('google_client_id');
+    const inp = document.getElementById('google-client-id-input');
+    if (saved && inp) inp.value = saved;
+  }
+};
+
+// On load: restore Google connected state display
+if (localStorage.getItem('google_connected')) {
+  updateGoogleUI(false); // show "not connected" until they re-auth (tokens don't persist)
+}
+
+// ═══════════════════════════════════════
+// MESSAGES TAB
+// ═══════════════════════════════════════
+let msgFilter = 'all';
+let selectedMsgContact = null;
+
+// ZenBill info (editable)
+let zbInfo = {
+  patients: '6,400+',
+  disputes: '657,040',
+  filed: '4',
+  wins: '4/4 (100%)',
+  savings: '~75%',
+  detroit: 'Launching Q1 2027',
+  partners: 'Lakeshore Legal Aid, Dollar For, Counterforce Health',
+  raise: 'Pre-seed — $750K for 18 months',
+  news: ''
+};
+
+function loadZbInfo() {
+  const saved = localStorage.getItem('moses_zbinfo');
+  if (saved) zbInfo = { ...zbInfo, ...JSON.parse(saved) };
+  // Sync to form fields if modal is open
+  ['patients','disputes','filed','wins','savings','detroit','partners','raise','news'].forEach(k => {
+    const el = document.getElementById('zb-' + k);
+    if (el) el.value = zbInfo[k] || '';
+  });
+}
+function saveZenbillInfo() {
+  ['patients','disputes','filed','wins','savings','detroit','partners','raise','news'].forEach(k => {
+    const el = document.getElementById('zb-' + k);
+    if (el) zbInfo[k] = el.value.trim();
+  });
+  localStorage.setItem('moses_zbinfo', JSON.stringify(zbInfo));
+  closeModal('zenbill-info-modal');
+  renderInfoHubSummary();
+  if (selectedMsgContact) renderMsgPanel(selectedMsgContact);
+  toast('ZenBill stats updated ✓', 'success');
+}
+function renderInfoHubSummary() {
+  const el = document.getElementById('info-hub-summary');
+  if (!el) return;
+  el.innerHTML = [
+    `<span>👥 <strong>${zbInfo.patients}</strong> patients</span>`,
+    `<span>📊 <strong>${zbInfo.disputes}</strong> disputes analyzed</span>`,
+    `<span>⚖️ <strong>${zbInfo.filed}</strong> filed · <strong>${zbInfo.wins}</strong> wins</span>`,
+    `<span>💰 <strong>${zbInfo.savings}</strong> avg savings</span>`,
+    `<span>🏙️ Detroit: <strong>${zbInfo.detroit}</strong></span>`,
+    `<span>💼 Raise: <strong>${zbInfo.raise}</strong></span>`,
+  ].map(s => `<span style="background:var(--white);border:1px solid var(--border);border-radius:6px;padding:3px 10px;">${s}</span>`).join('');
+}
+
+function setMsgFilter(el, type) {
+  msgFilter = type;
+  document.querySelectorAll('[data-mtype]').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderMsgList();
+}
+
+function getStrategyContacts() {
+  return window.ZENBILL_STRATEGY_CONTACTS || [];
+}
+
+function renderMsgList() {
+  const list = document.getElementById('msg-contact-list');
+  if (!list) return;
+  const all = getStrategyContacts();
+  const filtered = msgFilter === 'all' ? all : all.filter(c => c.type === msgFilter);
+  list.innerHTML = filtered.map(c => `
+    <div class="msg-contact-card ${selectedMsgContact && selectedMsgContact.id === c.id ? 'selected' : ''}"
+         onclick="selectMsgContact(${c.id})">
+      <div class="mcn">${c.name}</div>
+      <div class="mco">${c.title} · ${c.org}</div>
+      <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap;">
+        <span class="pill pill-${c.type === 'investor' ? 'investor' : c.type === 'partner' ? 'smallco' : c.type === 'expert' ? 'harvard' : c.type === 'large-company' ? 'foundation' : 'cold'}" style="font-size:9px;">${c.type}</span>
+        <span class="pill pill-${c.priority === 'high' ? 'high' : 'med'}" style="font-size:9px;">${c.priority}</span>
+      </div>
+    </div>
+  `).join('') || '<p style="font-size:12px;color:var(--gray);padding:12px;">No contacts in this category.</p>';
+}
+
+function selectMsgContact(id) {
+  const all = getStrategyContacts();
+  selectedMsgContact = all.find(c => c.id === id);
+  if (!selectedMsgContact) return;
+  renderMsgList(); // re-render to show selection
+  renderMsgPanel(selectedMsgContact);
+}
+
+function renderMsgPanel(c) {
+  const panel = document.getElementById('msg-panel');
+  if (!panel) return;
+
+  // Build the full email
+  const emailFull = buildEmail(c);
+  const liNote = buildLinkedInNote(c);
+  const charCount = liNote.length;
+  const charClass = charCount <= 280 ? 'char-ok' : charCount <= 300 ? 'char-warn' : 'char-over';
+
+  panel.innerHTML = `
+    <div style="margin-bottom:16px;">
+      <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:18px;color:var(--dark);">${c.name}</div>
+      <div style="font-size:13px;color:var(--mid);">${c.title} · ${c.org}</div>
+      <div style="margin-top:6px;display:flex;gap:6px;align-items:center;">
+        <span class="pill pill-${c.type === 'investor' ? 'investor' : c.type === 'partner' ? 'smallco' : c.type === 'expert' ? 'harvard' : c.type === 'large-company' ? 'foundation' : 'cold'}">${c.type}</span>
+        <a href="${c.linkedin}" target="_blank" class="btn btn-xs btn-blue">Search LinkedIn →</a>
+        <button class="btn btn-xs btn-green" onclick="addStrategyContactToPipeline(${c.id})">+ Add to Pipeline</button>
+      </div>
+    </div>
+
+    <!-- DOTS TO CONNECT -->
+    <div class="msg-dots">
+      <strong>🔗 Dots to connect:</strong> ${c.dots}
+    </div>
+
+    <!-- PERSONAL CONNECTION RESEARCH -->
+    <div class="personal-connect">
+      <strong>🔍 Before sending:</strong> ${c.personalConnect}
+    </div>
+
+    <div style="margin-top:16px;">
+      <!-- LINKEDIN NOTE -->
+      <div class="msg-section-label">
+        <span>💼 LinkedIn Note</span>
+        <span class="char-counter ${charClass}" id="char-ctr-${c.id}">${charCount}/300</span>
+      </div>
+      <textarea class="msg-textarea" id="linkedin-note-${c.id}" rows="4"
+        oninput="updateCharCount(this, 'char-ctr-${c.id}')"
+        style="margin-bottom:8px;">${liNote}</textarea>
+      <div class="msg-actions">
+        <button class="btn btn-sm btn-primary" onclick="copyMsgText('linkedin-note-${c.id}')">📋 Copy LinkedIn Note</button>
+        <button class="btn btn-xs btn-ghost" onclick="regenerateLinkedIn(${c.id})">↺ Regenerate</button>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <!-- EMAIL -->
+      <div class="msg-section-label">
+        <span>✉️ Email</span>
+        <span style="font-size:11px;color:var(--gray);">3 paragraphs · 2 sentences each</span>
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:11px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:0.4px;">Subject</label>
+        <input type="text" id="email-subject-${c.id}" value="${c.emailSubject || ''}"
+          class="msg-textarea" style="margin-top:4px;padding:8px 12px;height:auto;">
+      </div>
+      <textarea class="msg-textarea" id="email-body-${c.id}" rows="12"
+        style="margin-bottom:8px;">${emailFull}</textarea>
+      <div class="msg-actions">
+        <button class="btn btn-sm btn-primary" onclick="copyEmailFull(${c.id})">📋 Copy Full Email</button>
+        <button class="btn btn-xs btn-secondary" onclick="copyMsgText('email-subject-${c.id}')">Copy Subject</button>
+        <button class="btn btn-xs btn-ghost" onclick="logOutreachFromMsg(${c.id})">📤 Log Outreach</button>
+      </div>
+    </div>
+  `;
+}
+
+function buildLinkedInNote(c) {
+  if (c.linkedinNote) return c.linkedinNote;
+  // Template fallback for contacts without pre-written notes
+  const stat = (c.type === 'investor' || c.type === 'expert' || c.type === 'competitor')
+    ? `a Harvard MPH who analyzed ${zbInfo.disputes} federal billing disputes`
+    : `a Harvard MPH who's supported ${zbInfo.patients} patients`;
+  const ask = c.type === 'investor'
+    ? `Could I get 15 min of feedback on our Detroit pilot before we raise?`
+    : c.type === 'expert'
+    ? `Could I get 15 min on [specific question about their work]?`
+    : `Could I get 15 min on [specific topic relevant to their work]?`;
+  return `Hi ${c.firstName}, I'm ${stat}; I build ZenBill to dispute unfair medical bills. [Add one specific thing you admire about their work]. ${ask}`;
+}
+
+function buildEmail(c) {
+  const p1 = c.emailP1 || `I'm Sarah Wang, a Harvard MPH who has supported ${zbInfo.patients} patients, and I'm building ZenBill to help people dispute unfair medical bills under the No Surprises Act. We use AI plus human review, and patients pay nothing upfront.`;
+  const p2 = c.emailP2 || `[Add a genuine, specific observation about their work and how it connects to ZenBill's mission.]`;
+  const p3 = c.emailP3 || `Could you spare 15 minutes in the next two weeks? If the timing isn't right, a one-line pointer to the right person would mean a lot.`;
+  const news = zbInfo.news ? `\n\nLatest: ${zbInfo.news}` : '';
+  return `Hi ${c.firstName},\n\n${p1}\n\n${p2}${news}\n\n${p3}\n\nWarmly,\nSarah Wang\nFounder, ZenBill · getzenbill.com`;
+}
+
+function updateCharCount(textarea, counterId) {
+  const count = textarea.value.length;
+  const el = document.getElementById(counterId);
+  if (!el) return;
+  el.textContent = count + '/300';
+  el.className = 'char-counter ' + (count <= 280 ? 'char-ok' : count <= 300 ? 'char-warn' : 'char-over');
+}
+
+function copyMsgText(elementId) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  navigator.clipboard.writeText(el.value || el.textContent).then(() => toast('Copied ✓', 'success'));
+}
+
+function copyEmailFull(cid) {
+  const all = getStrategyContacts();
+  const c = all.find(x => x.id === cid);
+  if (!c) return;
+  const subject = document.getElementById(`email-subject-${cid}`)?.value || c.emailSubject || '';
+  const body = document.getElementById(`email-body-${cid}`)?.value || buildEmail(c);
+  navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`).then(() => toast('Full email copied ✓', 'success'));
+}
+
+function regenerateLinkedIn(cid) {
+  const all = getStrategyContacts();
+  const c = all.find(x => x.id === cid);
+  if (!c) return;
+  const el = document.getElementById(`linkedin-note-${cid}`);
+  if (el) {
+    el.value = buildLinkedInNote(c);
+    updateCharCount(el, `char-ctr-${cid}`);
+  }
+}
+
+function logOutreachFromMsg(cid) {
+  const all = getStrategyContacts();
+  const sc = all.find(x => x.id === cid);
+  if (!sc) return;
+  // Find or add this contact in the main contacts list
+  let existing = contacts.find(c => c.name === sc.name);
+  if (!existing) {
+    contacts.push({ ...sc, outreach: [], gifts: [] });
+    save();
+  }
+  populateContactSelects();
+  const sel = document.getElementById('lo-contact');
+  if (sel) {
+    // Find by name
+    const opt = Array.from(sel.options).find(o => o.text.startsWith(sc.name));
+    if (opt) sel.value = opt.value;
+  }
+  document.getElementById('lo-date').value = today;
+  openModal('log-outreach-modal');
+}
+
+function addStrategyContactToPipeline(cid) {
+  const all = getStrategyContacts();
+  const sc = all.find(x => x.id === cid);
+  if (!sc) return;
+  if (contacts.some(c => c.name === sc.name)) {
+    toast(`${sc.name} is already in your pipeline`, 'warning');
+    return;
+  }
+  contacts.push({ ...sc, outreach: [], gifts: [] });
+  save(); updateStats();
+  toast(`${sc.name} added to pipeline ✓`, 'success');
+}
+
+// Extend showTab for messages
+const _origShowTab2 = showTab;
+showTab = function(name) {
+  _origShowTab2(name);
+  if (name === 'messages') {
+    loadZbInfo();
+    renderInfoHubSummary();
+    renderMsgList();
+  }
+};
+
+// Init ZenBill info on load
+loadZbInfo();
+renderInfoHubSummary();
+</script>
+</body>
+</html>
